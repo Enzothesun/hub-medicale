@@ -478,51 +478,44 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">HM</div>
-            <div class="sidebar-title">
-                HUB Medicale<br>
-                <span style="font-size:11px; opacity:0.85;">Decisioni Operative</span>
-            </div>
+    <div class="sidebar-header">
+        <div class="sidebar-logo">HM</div>
+        <div class="sidebar-title">
+            HUB Medicale<br>
+            <span style="font-size:11px; opacity:0.85;">Decisioni Operative</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-menu">
+
+        <div class="nav-item active" data-view="dashboard" onclick="showView('dashboard', this)">
+            <div class="nav-item-icon">🏠</div>
+            <div class="nav-item-label">Dashboard</div>
         </div>
 
-        <nav class="sidebar-menu">
-            <div class="nav-item active" data-view="dashboard" onclick="showView('dashboard', this)">
-                <div class="nav-item-icon">🏠</div>
-                <div class="nav-item-label">Dashboard</div>
-            </div>
-            <div class="nav-item" data-view="magaldi" onclick="showView('magaldi', this)">
-                <div class="nav-item-icon">🧪</div>
-                <div class="nav-item-label">Magaldi</div>
-            </div>
-            <div class="nav-item" data-view="farmacie" onclick="showView('farmacie', this)">
-                <div class="nav-item-icon">💊</div>
-                <div class="nav-item-label">Farmacie Medigas</div>
-            </div>
-            <div class="nav-item" data-view="calcolatori" onclick="showView('calcolatori', this)">
-                <div class="nav-item-icon">🔧</div>
-                <div class="nav-item-label">Calcolatori</div>
-            </div>
-            <div class="nav-item" data-view="procedure" onclick="showView('procedure', this)">
-                <div class="nav-item-icon">📚</div>
-                <div class="nav-item-label">Procedure</div>
-            </div>
-            <div class="nav-item" data-view="formazione" onclick="showView('formazione', this)">
-                <div class="nav-item-icon">🎓</div>
-                <div class="nav-item-label">Formazione</div>
-            </div>
-            <div class="nav-item" data-view="info" onclick="showView('info', this)">
-                <div class="nav-item-icon">ℹ️</div>
-                <div class="nav-item-label">Info Hub</div>
-            </div>
-        </nav>
+        <div class="nav-item" data-view="procedure" onclick="showView('procedure', this)">
+            <div class="nav-item-icon">📚</div>
+            <div class="nav-item-label">Procedure</div>
+        </div>
 
-       <div class="sidebar-footer">
-    HUB Medicale v1.0<br>
-    <span style="font-weight:600;">A cura di SME Enzo Motti</span>
-</div>
+        <div class="nav-item" data-view="formazione" onclick="showView('formazione', this)">
+            <div class="nav-item-icon">🎓</div>
+            <div class="nav-item-label">Formazione</div>
+        </div>
 
-    </aside>
+        <div class="nav-item" data-view="info" onclick="showView('info', this)">
+            <div class="nav-item-icon">ℹ️</div>
+            <div class="nav-item-label">Info Hub</div>
+        </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        HUB Medicale v1.0<br>
+        <span style="font-weight:600;">A cura di SME Enzo Motti</span>
+    </div>
+</aside>
+
 
     <!-- MAIN -->
     <main class="main">

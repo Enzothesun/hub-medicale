@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>HUB Medicale – Decisioni Operative</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    :root {
+        --sidebar-bg: #123a5d;
+        --sidebar-hover: #1c507e;
+        --accent: #1e88e5;
+        --bg: #f4f7fb;
+        --card-bg: #ffffff;
+        --text-main: #1f2933;
+        --text-muted: #6b7a8c;
+        --shadow-soft: 0 8px 20px rgba(15, 23, 42, 0.18);
+        --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, #e3f2fd, #f4f7fb 40%, #edf2ff);
+        color: var(--text-main);
+        min-height: 100vh;
+    }
+
+    .app-shell {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* SIDEBAR COMPATTA A ICONE */
+
+    .sidebar {
+        position: relative;
+        background: linear-gradient(180deg, #0f2740, #163c63);
+        width: 70px;
+        transition: width 0.2s ease-out;
+        color: #ffffff;
+        box-shadow: 4px 0 18px rgba(15, 23, 42, 0.45);
+        display: flex;
+        flex-direction: column;
+        padding: 16px 10px;
+        z-index: 10;
+    }
+
+    .sidebar:hover {
+        width: 220px;
+    }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 8px 18px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        margin-bottom: 14px;
+    }
+
+    .sidebar-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 20%, #bbdefb, #64b5f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 16px;
+        color: #0b1930;
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+        flex-shrink: 0;
+    }
+
+    .sidebar-title {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.2;
+        opacity: 0;
+        transform: translateX(-8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .sidebar:hover .sidebar-title {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .sidebar-menu {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        color: rgba(255,255,255,0.82);
+        font-size: 14px;
+        transition: background 0.15s ease, transform 0.1s ease, color 0.15s ease;
+        white-space: nowrap;
+    }
+
+    .nav-item-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.10);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        flex-shrink: 0;
+    }
+
+    .nav-item-label {
+        opacity: 0;
+        transform: translateX(-6px);
+        transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .sidebar:hover .nav-item-label {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .nav-item:hover {
+        background: rgba(15, 23, 42, 0.32);
+        transform: translateX(1px);
+    }
+
+    .nav-item.active {
+        background: linear-gradient(90deg, #42a5f5, #5c6bc0);
+        color: #ffffff;
+        box-shadow: 0 6px 18px rgba(33,150,243,0.5);
+    }
+
+    .nav-item.active .nav-item-icon {
+        background: rgba(255,255,255,0.22);
+    }
+
+    .sidebar-footer {
+        margin-top: 16px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        font-size: 11px;
+        color: rgba(255,255,255,0.7);
+        opacity: 0;
+        transform: translateX(-8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        line-height: 1.4;
+    }
+
+    .sidebar:hover .sidebar-footer {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* AREA CONTENUTO */
+
+    .main {
+        flex: 1;
+        padding: 20px 24px 28px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .main-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #102a43;
+    }
+
+    .main-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 2px;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(33,150,243,0.12);
+        color: #1565c0;
+        font-weight: 500;
+    }
+
+    .views-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-height: 0;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-soft);
+        padding: 18px 18px 20px 18px;
+    }
+
+    .view {
+        display: none;
+    }
+
+    .view.active {
+        display: block;
+    }
+
+    /* DASHBOARD */
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 16px;
+        margin-top: 10px;
+    }
+
+    .dash-card {
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border-radius: 16px;
+        padding: 14px 14px 16px 14px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.10);
+        cursor: pointer;
+        transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s;
+    }
+
+    .dash-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+        border-color: rgba(59,130,246,0.5);
+    }
+
+    .dash-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 4px;
+    }
+
+    .dash-card-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .dash-chip {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 6px;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(59,130,246,0.10);
+        color: #1d4ed8;
+    }
+
+    .updates-list {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    .updates-list li {
+        margin-bottom: 4px;
+    }
+
+    /* SEZIONI STRUMENTI */
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .section-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #102a43;
+    }
+
+    .section-subtitle {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .pill-switch {
+        display: inline-flex;
+        background: #e3edf7;
+        border-radius: 999px;
+        padding: 3px;
+        gap: 4px;
+    }
+
+    .pill-btn {
+        border: none;
+        background: transparent;
+        padding: 6px 10px;
+        font-size: 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        color: #4b5563;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .pill-btn.active {
+        background: #ffffff;
+        color: #1d4ed8;
+        box-shadow: 0 4px 10px rgba(15,23,42,0.15);
+    }
+
+    iframe {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        background: #ffffff;
+    }
+
+    .iframe-wrapper {
+        margin-top: 10px;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22);
+    }
+
+    /* PLACEHOLDER VISTE VUOTE */
+
+    .placeholder {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    .placeholder-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 4px;
+    }
+
+    .tag {
+        display: inline-flex;
+        padding: 2px 7px;
+        border-radius: 999px;
+        font-size: 10px;
+        border: 1px solid rgba(148,163,184,0.7);
+        color: #4b5563;
+        margin-top: 6px;
+    }
+
+    @media (max-width: 800px) {
+        .app-shell {
+            flex-direction: column;
+        }
+        .sidebar {
+            flex-direction: row;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.3);
+        }
+        .sidebar:hover {
+            width: 100%;
+        }
+        .sidebar-menu {
+            flex-direction: row;
+            overflow-x: auto;
+            gap: 6px;
+        }
+        .sidebar-header,
+        .sidebar-footer {
+            display: none;
+        }
+        .nav-item-label {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">HM</div>
+            <div class="sidebar-title">
+                HUB Medicale<br>
+                <span style="font-size:11px; opacity:0.8;">Decisioni Operative</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <div class="nav-item active" data-view="dashboard" onclick="showView('dashboard', this)">
+                <div class="nav-item-icon">🏠</div>
+                <div class="nav-item-label">Dashboard</div>
+            </div>
+            <div class="nav-item" data-view="magaldi" onclick="showView('magaldi', this)">
+                <div class="nav-item-icon">🧪</div>
+                <div class="nav-item-label">Magaldi</div>
+            </div>
+            <div class="nav-item" data-view="farmacie" onclick="showView('farmacie', this)">
+                <div class="nav-item-icon">💊</div>
+                <div class="nav-item-label">Farmacie Medigas</div>
+            </div>
+            <div class="nav-item" data-view="calcolatori" onclick="showView('calcolatori', this)">
+                <div class="nav-item-icon">🔧</div>
+                <div class="nav-item-label">Calcolatori</div>
+            </div>
+            <div class="nav-item" data-view="procedure" onclick="showView('procedure', this)">
+                <div class="nav-item-icon">📚</div>
+                <div class="nav-item-label">Procedure</div>
+            </div>
+            <div class="nav-item" data-view="formazione" onclick="showView('formazione', this)">
+                <div class="nav-item-icon">🎓</div>
+                <div class="nav-item-label">Formazione</div>
+            </div>
+            <div class="nav-item" data-view="info" onclick="showView('info', this)">
+                <div class="nav-item-icon">ℹ️</div>
+                <div class="nav-item-label">Info Hub</div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            HUB Medicale v1.0<br>
+            SME: Enzo Motti
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="main-header">
+            <div>
+                <div class="main-title">HUB Medicale</div>
+                <div class="main-subtitle">Accesso rapido alle decisioni operative e agli strumenti di calcolo.</div>
+            </div>
+            <div class="badge">
+                ⚙️ Strumenti unificati
+            </div>
+        </div>
+
+        <div class="views-wrapper">
+
+            <!-- DASHBOARD -->
+            <section id="view-dashboard" class="view active">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Dashboard</div>
+                            <div class="section-subtitle">
+                                Scegli lo strumento che ti serve. Tutto il resto è già pronto qui dentro.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dash-card" onclick="showView('farmacie'); activateNav('farmacie')">
+                            <div class="dash-card-title">Farmacie Medigas</div>
+                            <div class="dash-card-sub">Decisione Operativa – Brescia, Torino, Emilia, Sud Sardegna, Resto d’Italia.</div>
+                            <div class="dash-chip">💊 Ossigeno gassoso – farmacie</div>
+                        </div>
+
+                        <div class="dash-card" onclick="showView('magaldi'); activateNav('magaldi')">
+                            <div class="dash-card-title">Magaldi</div>
+                            <div class="dash-card-sub">Decisione Operativa ossigeno liquido e gassoso Magaldi.</div>
+                            <div class="dash-chip">🧪 Liquido &amp; Gassoso</div>
+                        </div>
+
+                        <div class="dash-card" onclick="showView('calcolatori'); activateNav('calcolatori')">
+                            <div class="dash-card-title">Calcolatori Ossigeno</div>
+                            <div class="dash-card-sub">Autonomia residua, contenitori, strumenti rapidi per OLT e gestione chiamata.</div>
+                            <div class="dash-chip">🔧 Strumenti tecnici</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px; font-size:13px;">
+                        <div style="font-weight:600; margin-bottom:6px;">Ultimi aggiornamenti</div>
+                        <ul class="updates-list">
+                            <li>✔ Integrata Decisione Operativa – Farmacie Medigas (Brescia, Torino, Emilia, Sud Sardegna, Resto d’Italia).</li>
+                            <li>✔ Nuova gestione “Resto d’Italia” con Nuove Attivazioni e Consegne Ordinarie.</li>
+                            <li>✔ HUB Medicale unificato con accesso a Magaldi e Calcolatori ossigeno.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MAGALDI -->
+            <section id="view-magaldi" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Decisione Operativa – Magaldi</div>
+                            <div class="section-subtitle">Gestione consegne ossigeno liquido e gassoso Magaldi.</div>
+                        </div>
+                        <div class="pill-switch">
+                            <button class="pill-btn active" id="magaldi-btn-liquido" onclick="switchMagaldi('liquido')">🧪 Liquido</button>
+                            <button class="pill-btn" id="magaldi-btn-gassoso" onclick="switchMagaldi('gassoso')">🩻 Gassoso</button>
+                        </div>
+                    </div>
+
+                    <div class="iframe-wrapper">
+                        <iframe id="iframe-magaldi-liquido"
+                                src="https://enzothesun.github.io/decisione-operativa/"
+                                height="720"
+                                loading="lazy">
+                        </iframe>
+                        <iframe id="iframe-magaldi-gassoso"
+                                src="https://enzothesun.github.io/decisione-operativa/gassoso/Decisione_Operativa_Ossigeno_Gassoso_v1_3.html"
+                                height="720"
+                                loading="lazy"
+                                style="display:none;">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FARMACIE MEDIGAS -->
+            <section id="view-farmacie" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Decisione Operativa – Farmacie Medigas</div>
+                            <div class="section-subtitle">
+                                Farmacie Brescia e provincia, Comunali Torino, Emilia, Sud Sardegna e Resto d’Italia.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="iframe-wrapper">
+                        <iframe src="https://enzothesun.github.io/decisione-operativa-farmacie/?v=7001"
+                                height="820"
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CALCOLATORI -->
+            <section id="view-calcolatori" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Calcolatori Ossigeno</div>
+                            <div class="section-subtitle">
+                                Contenitori ossigeno liquido, autonomia residua, strumenti tecnici per la gestione della chiamata.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="iframe-wrapper">
+                        <iframe src="https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/"
+                                height="780"
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROCEDURE OPERATIVE -->
+            <section id="view-procedure" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Procedure operative</div>
+                            <div class="section-subtitle">
+                                Spazio dedicato alle procedure scritte, flowchart e materiali consultivi.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="placeholder">
+                        <div class="placeholder-title">Sezione in costruzione</div>
+                        Qui potrai inserire:
+                        <ul style="margin-left:18px; margin-top:6px;">
+                            <li>Procedure farmacovigilanza (versione operatore)</li>
+                            <li>Flowchart OLT, gestione urgenze, verifica autonomia contenitori</li>
+                            <li>Link a video formativi e PDF salvati su SharePoint</li>
+                        </ul>
+                        <div class="tag">Work in progress – contenuti integrabili in ogni momento</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORMAZIONE -->
+            <section id="view-formazione" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Formazione</div>
+                            <div class="section-subtitle">
+                                Schede affiancamento, materiali per nuovi ingressi, recap di moduli formativi.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="placeholder">
+                        <div class="placeholder-title">Spazio Formazione – HUB Medicale</div>
+                        Idee per questa sezione:
+                        <ul style="margin-left:18px; margin-top:6px;">
+                            <li>Schede di formazione ossigenoterapia domiciliare</li>
+                            <li>Check-list per affiancamento nuovi operatori</li>
+                            <li>Link a corsi interni, video formativi, quiz di verifica</li>
+                        </ul>
+                        <div class="tag">Sezione già pronta da riempire con materiali futuri</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INFO HUB -->
+            <section id="view-info" class="view">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-title">Info HUB Medicale</div>
+                            <div class="section-subtitle">
+                                Informazioni sintetiche sul progetto e sulla versione attuale dello strumento.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="placeholder">
+                        <div class="placeholder-title">HUB Medicale – Versione 1.0</div>
+                        <p style="margin-top:6px; margin-bottom:8px;">
+                            Strumento interno per la gestione unificata di:
+                        </p>
+                        <ul style="margin-left:18px; margin-top:4px;">
+                            <li>Decisioni Operative – Magaldi (ossigeno liquido e gassoso)</li>
+                            <li>Decisioni Operative – Farmacie Medigas</li>
+                            <li>Calcolatori tecnici per i contenitori di ossigeno</li>
+                        </ul>
+
+                        <p style="margin-top:10px; font-size:12px; color:#6b7280;">
+                            Progettazione operativa e contenuti: <b>SME – Enzo Motti</b><br>
+                            Supporto tecnico e struttura logica: ChatGPT (HUB Medicale project).<br>
+                            Aggiornabile in continuo con nuove procedure e strumenti.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<script>
+function showView(viewId, el) {
+    // Se chiamato da card dashboard
+    if (!el) {
+        const nav = document.querySelector(`.nav-item[data-view="${viewId}"]`);
+        if (nav) {
+            setActiveNav(nav);
+        }
+    } else {
+        setActiveNav(el);
+    }
+
+    const views = document.querySelectorAll('.view');
+    views.forEach(v => v.classList.remove('active'));
+
+    const target = document.getElementById(`view-${viewId}`);
+    if (target) target.classList.add('active');
+}
+
+function setActiveNav(el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+}
+
+// Helper per attivare nav da dashboard
+function activateNav(viewId) {
+    const nav = document.querySelector(`.nav-item[data-view="${viewId}"]`);
+    if (nav) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        nav.classList.add('active');
+    }
+}
+
+// Switch Magaldi liquido/gassoso
+function switchMagaldi(tipo) {
+    const iLiq = document.getElementById('iframe-magaldi-liquido');
+    const iGas = document.getElementById('iframe-magaldi-gassoso');
+    const bLiq = document.getElementById('magaldi-btn-liquido');
+    const bGas = document.getElementById('magaldi-btn-gassoso');
+
+    if (tipo === 'liquido') {
+        iLiq.style.display = 'block';
+        iGas.style.display = 'none';
+        bLiq.classList.add('active');
+        bGas.classList.remove('active');
+    } else {
+        iLiq.style.display = 'none';
+        iGas.style.display = 'block';
+        bLiq.classList.remove('active');
+        bGas.classList.add('active');
+    }
+}
+</script>
+
+</body>
+</html>

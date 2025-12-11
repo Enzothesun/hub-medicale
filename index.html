@@ -6,6 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+   /* Layout fisso sidebar + contenuto */
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar: larghezza fissa */
+.sidebar {
+    width: 70px;
+    flex-shrink: 0; /* 🔥 evita che si sovrapponga al contenuto */
+}
+
+/* Contenuto: occupa tutto lo spazio restante */
+.main {
+    flex: 1;
+    margin-left: 0; /* Assicura che parta accanto alla sidebar */
+}
+
 /* ======================
    🎨 VARIABILI GLOBALI – UI v2
 ====================== */

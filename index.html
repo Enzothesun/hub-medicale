@@ -6,161 +6,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-    :root {
-        --sidebar-bg: #123a5d;
-        --sidebar-hover: #1c507e;
-        --accent: #009A7E;
-        --bg: #f4f7fb;
-        --card-bg: #ffffff;
-        --text-main: #1f2933;
-        --text-muted: #6b7a8c;
-        --shadow-soft: 0 8px 20px rgba(15, 23, 42, 0.18);
-        --radius: 18px;
-    }
+/* ======================
+   🎨 VARIABILI GLOBALI
+====================== */
+:root {
+    --accent: #009A7E;
+    --sidebar-bg: #0f2740;
+    --sidebar-bg-2: #163c63;
+    --text-main: #1f2933;
+    --text-muted: #6b7a8c;
+    --card-bg: #ffffff;
+    --radius: 18px;
+    --shadow: 0 8px 20px rgba(15,23,42,0.18);
+}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: radial-gradient(circle at top left, #e0f7f2, #f4f7fb 40%, #e9fcf7);
-        color: var(--text-main);
-        min-height: 100vh;
-    }
+body {
+    font-family: system-ui, sans-serif;
+    background: radial-gradient(circle at top left, #e0f7f2, #f4f7fb 40%, #e9fcf7);
+    color: var(--text-main);
+    min-height: 100vh;
+}
 
-    .app-shell {
-        display: flex;
-        min-height: 100vh;
-    }
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
 
-    /* SIDEBAR */
+/* ======================
+   🟦 SIDEBAR
+====================== */
+.sidebar {
+    width: 70px;
+    background: linear-gradient(180deg, var(--sidebar-bg), var(--sidebar-bg-2));
+    padding: 16px 10px;
+    color: white;
+    box-shadow: 4px 0 18px rgba(0,0,0,0.4);
+    transition: width 0.2s ease-out;
+}
 
-    .sidebar {
-        position: relative;
-        background: linear-gradient(180deg, #0f2740, #163c63);
-        width: 70px;
-        transition: width 0.2s ease-out;
-        color: #ffffff;
-        box-shadow: 4px 0 18px rgba(15, 23, 42, 0.45);
-        display: flex;
-        flex-direction: column;
-        padding: 16px 10px;
-        z-index: 10;
-    }
+.sidebar:hover { width: 220px; }
 
-    .sidebar:hover {
-        width: 220px;
-    }
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 14px;
+}
 
-    .sidebar-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 8px 18px 8px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        margin-bottom: 14px;
-    }
+.sidebar-logo {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 20%, #CFF8EE, var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    color: #0b1930;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
 
-    .sidebar-logo {
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 20%, #CFF8EE, #009A7E);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 16px;
-        color: #0b1930;
-        box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
-        flex-shrink: 0;
-    }
+.sidebar-title {
+    opacity: 0;
+    transition: opacity .2s;
+    font-weight: 600;
+}
+.sidebar:hover .sidebar-title { opacity: 1; }
 
-    .sidebar-title {
-        font-size: 15px;
-        font-weight: 600;
-        line-height: 1.2;
-        opacity: 0;
-        transform: translateX(-8px);
-        transition: opacity 0.2s ease, transform 0.2s ease;
-        white-space: nowrap;
-    }
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.85);
+    transition: background .15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.12); }
+.nav-item.active {
+    background: linear-gradient(90deg, var(--accent), #42a5f5);
+    color: white;
+}
 
-    .sidebar:hover .sidebar-title {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.nav-item-icon {
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+}
 
-    .sidebar-menu {
-        margin-top: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        flex: 1;
-    }
+.nav-item-label { opacity: 0; transition: opacity .2s; }
+.sidebar:hover .nav-item-label { opacity: 1; }
 
-    .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 9px 10px;
-        border-radius: 999px;
-        cursor: pointer;
-        color: rgba(255,255,255,0.82);
-        font-size: 14px;
-        transition: background 0.15s ease, transform 0.1s ease, color 0.15s ease;
-        white-space: nowrap;
-    }
+.sidebar-footer {
+    font-size: 11px;
+    opacity: 1;
+    margin-top: 20px;
+}
 
-    .nav-item-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.10);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 17px;
-        flex-shrink: 0;
-    }
+/* ======================
+   📄 CONTENUTO
+====================== */
+.main {
+    flex: 1;
+    padding: 24px;
+}
 
-    .nav-item-label {
-        opacity: 0;
-        transform: translateX(-6px);
-        transition: opacity 0.15s ease, transform 0.15s ease;
-    }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
 
-    .sidebar:hover .nav-item-label {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.section-title { font-size: 20px; font-weight: 650; }
+.section-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
 
-    .nav-item:hover {
-        background: rgba(15, 23, 42, 0.32);
-        transform: translateX(1px);
-    }
+/* ======================
+   🟩 DASHBOARD
+====================== */
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 
-    .nav-item.active {
-        background: linear-gradient(90deg, #009A7E, #42a5f5);
-        color: #ffffff;
-        box-shadow: 0 6px 18px rgba(0,154,126,0.55);
-    }
+.dash-tile {
+    background: linear-gradient(135deg, var(--accent), #CFF8EE);
+    padding: 18px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+.dash-tile:hover { transform: translateY(-4px); }
 
-    .nav-item.active .nav-item-icon {
-        background: rgba(255,255,255,0.22);
-    }
+/* ======================
+   📚 PROCEDURE
+====================== */
+.doc-category { margin-bottom: 20px; }
 
-    .sidebar-footer {
-        margin-top: 16px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(255,255,255,0.08);
-        font-size: 11px;
-        color: rgba(255,255,255,0.7);
-        opacity: 1 !important;
-        transform: none !important;
-        line-height: 1.4;
-        white-space: nowrap;
-    }
+.doc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #f7fffd;
+    border: 1px solid #d3eee8;
+    cursor: pointer;
+}
+.doc-item:hover {
+    background: #eafff7;
+}
 
+.doc-icon {
+    font-size: 22px;
+}
+
+/* ======================
+   🔄 Forza Aggiornamento
+====================== */
+.refresh-btn {
+    background: var(--accent);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+}
+.refresh-btn:hover { filter: brightness(1.1); }
+
+.view { display: none; }
+.view.active { display: block; }
 </style>
 </head>
 
@@ -168,242 +192,158 @@
 
 <div class="app-shell">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">HM</div>
-            <div class="sidebar-title">
-                HUB Medicale<br>
-                <span style="font-size:11px; opacity:0.85;">Decisioni Operative</span>
-            </div>
+<!-- ======================
+     SIDEBAR
+====================== -->
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">HM</div>
+        <div class="sidebar-title">HUB Medicale</div>
+    </div>
+
+    <nav class="sidebar-menu">
+        <div class="nav-item active" data-view="dashboard" onclick="showView('dashboard', this)">
+            <div class="nav-item-icon">🏠</div>
+            <div class="nav-item-label">Dashboard</div>
         </div>
 
-        <nav class="sidebar-menu">
-            <div class="nav-item active" data-view="dashboard" onclick="showView('dashboard', this)">
-                <div class="nav-item-icon">🏠</div>
-                <div class="nav-item-label">Dashboard</div>
-            </div>
-            <div class="nav-item" data-view="procedure" onclick="showView('procedure', this)">
-                <div class="nav-item-icon">📚</div>
-                <div class="nav-item-label">Procedure</div>
-            </div>
-            <div class="nav-item" data-view="info" onclick="showView('info', this)">
-                <div class="nav-item-icon">ℹ️</div>
-                <div class="nav-item-label">Info Hub</div>
-            </div>
-        </nav>
-
-        <div class="sidebar-footer">
-            HUB Medicale v1.0<br>
-            <span style="font-weight:600;">A cura di SME Enzo Motti</span>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-
-        <div class="main-header">
-            <div>
-                <div class="main-title">HUB Medicale</div>
-                <div class="main-subtitle">Accesso unificato alle decisioni operative e agli strumenti tecnici.</div>
-            </div>
-            <div class="badge">
-                💚 Medigas · Strumenti integrati
-            </div>
+        <div class="nav-item" data-view="procedure" onclick="showView('procedure', this)">
+            <div class="nav-item-icon">📚</div>
+            <div class="nav-item-label">Procedure</div>
         </div>
 
-        <!-- ⭐ Pulsante FORZA AGGIORNAMENTO -->
-        <div style="margin:6px 0 14px 0;">
-            <button onclick="forceRefresh()" 
-                style="
-                    padding: 8px 14px;
-                    background:#009A7E;
-                    color:white;
-                    border:none;
-                    border-radius:8px;
-                    font-size:13px;
-                    cursor:pointer;
-                    box-shadow:0 4px 10px rgba(0,0,0,0.15);
-                ">
-                🔄 Forza aggiornamento
-            </button>
+        <div class="nav-item" data-view="info" onclick="showView('info', this)">
+            <div class="nav-item-icon">ℹ️</div>
+            <div class="nav-item-label">Info Hub</div>
         </div>
+    </nav>
 
-        <div class="views-wrapper">
-<!-- DASHBOARD -->
+    <div class="sidebar-footer">
+        HUB Medicale v1.1<br>
+        A cura di SME Enzo Motti
+    </div>
+</aside>
+
+<!-- ======================
+     MAIN CONTENT
+====================== -->
+<main class="main">
+
+    <!-- 🔄 Pulsante aggiornamento -->
+    <button class="refresh-btn" onclick="forceRefresh()">🔄 Forza aggiornamento</button>
+
+    <div class="views-wrapper">
+
+<!-- ======================
+     DASHBOARD
+====================== -->
 <section id="view-dashboard" class="view active">
     <div class="card">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-title">Dashboard</div>
-                <div class="section-subtitle">
-                    Scegli lo strumento di cui hai bisogno: farmacie, calcolatori e procedure operative.
-                </div>
-            </div>
-        </div>
+        <div class="section-title">Dashboard</div>
+        <div class="section-subtitle">Scegli lo strumento necessario</div>
 
         <div class="dashboard-list">
 
-            <!-- TILE: Farmacie Medigas -->
             <div class="dash-tile" onclick="window.open('https://enzothesun.github.io/decisione-operativa-farmacie/', '_blank')">
                 <div class="dash-main">
-                    <div class="dash-icon">💊</div>
-                    <div class="dash-texts">
-                        <div class="dash-title">Farmacie Medigas</div>
-                        <div class="dash-sub">Decisioni operative Brescia, Torino, Emilia, Sud Sardegna, Resto d’Italia.</div>
-                    </div>
+                    <strong>Farmacie Medigas</strong><br>
+                    <span style="font-size:12px;">Decisioni operative ossigeno gassoso</span>
                 </div>
-                <div class="dash-right">
-                    <span>Ossigeno gassoso</span>
-                    <span class="dash-arrow">➜</span>
-                </div>
+                ➜
             </div>
 
-            <!-- TILE: Calcolatori -->
             <div class="dash-tile" onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/', '_blank')">
                 <div class="dash-main">
-                    <div class="dash-icon">🔧</div>
-                    <div class="dash-texts">
-                        <div class="dash-title">Calcolatori Ossigeno</div>
-                        <div class="dash-sub">Contenitori, autonomia residua, strumenti tecnici.</div>
-                    </div>
+                    <strong>Calcolatori Ossigeno</strong><br>
+                    <span style="font-size:12px;">Autonomia residua e strumenti tecnici</span>
                 </div>
-                <div class="dash-right">
-                    <span>Strumenti tecnici</span>
-                    <span class="dash-arrow">➜</span>
-                </div>
+                ➜
             </div>
 
-            <!-- TILE: Procedure -->
             <div class="dash-tile" onclick="showView('procedure'); activateNav('procedure')">
                 <div class="dash-main">
-                    <div class="dash-icon">📚</div>
-                    <div class="dash-texts">
-                        <div class="dash-title">Procedure operative</div>
-                        <div class="dash-sub">Consultazione procedure • PDF • Flowchart.</div>
-                    </div>
+                    <strong>Procedure operative</strong><br>
+                    <span style="font-size:12px;">PDF e documentazione tecnica</span>
                 </div>
-                <div class="dash-right">
-                    <span>Documentazione</span>
-                    <span class="dash-arrow">➜</span>
-                </div>
+                ➜
             </div>
-
-        </div>
-
-        <div class="updates-card">
-            <div class="updates-title">Ultimi aggiornamenti</div>
-            <ul class="updates-list">
-                <li>✔ Aggiunto pulsante “Forza aggiornamento”.</li>
-                <li>✔ Riorganizzazione sidebar (solo Dashboard, Procedure, Info Hub).</li>
-                <li>✔ Ottimizzato layout verticale per esperienza operatore.</li>
-            </ul>
         </div>
     </div>
 </section>
 
-<!-- PROCEDURE OPERATIVE -->
+<!-- ======================
+     PROCEDURE
+====================== -->
 <section id="view-procedure" class="view">
     <div class="card">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-title">Procedure operative</div>
-                <div class="section-subtitle">Documentazione tecnica, PDF e materiale di consultazione.</div>
-            </div>
-        </div>
+        <div class="section-title">Procedure operative</div>
+        <div class="section-subtitle">Libreria documentale</div>
 
-        <!-- Libreria Documenti -->
-        <div class="document-library">
+        <div class="doc-category">
+            <h3>🛠️ Malfunzionamenti contenitore O₂ liquido</h3>
 
-            <!-- Categoria: Malfunzionamenti contenitore O₂ liquido -->
-            <div class="doc-category">
-                <h3 style="margin-bottom:6px; color:#0b3d31; font-size:15px;">🛠️ Malfunzionamenti contenitore O₂ liquido</h3>
-
-                <div class="doc-item" onclick="window.open('docs/procedure/malfunzionamenti/contenitore_o2_liquido_generale.pdf', '_blank')">
-                    <div class="doc-icon">📄</div>
-                    <div class="doc-texts">
-                        <div class="doc-title">Gestione malfunzionamenti contenitore O₂ liquido</div>
-                        <div class="doc-sub">Procedura generale (PDF)</div>
-                    </div>
+            <div class="doc-item" onclick="window.open('docs/procedure/malfunzionamenti/contenitore_o2_liquido_generale.pdf', '_blank')">
+                <div class="doc-icon">📄</div>
+                <div>
+                    <div class="doc-title">Gestione malfunzionamenti contenitore O₂ liquido</div>
+                    <div class="doc-sub">Procedura generale (PDF)</div>
                 </div>
-
             </div>
 
         </div>
 
-        <div class="tag">La libreria procedure può essere ampliata in qualsiasi momento.</div>
-
+        <p style="font-size:11px; color:var(--text-muted); margin-top:10px;">
+            La libreria può essere ampliata in qualsiasi momento.
+        </p>
     </div>
 </section>
 
-<!-- INFO HUB -->
+<!-- ======================
+     INFO HUB
+====================== -->
 <section id="view-info" class="view">
     <div class="card">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-title">Info HUB Medicale</div>
-                <div class="section-subtitle">Versione, struttura tecnica e note di progetto.</div>
-            </div>
-        </div>
-
-        <div class="placeholder">
-
-            <div class="placeholder-title">HUB Medicale – Versione 1.1</div>
-
-            <p style="margin-top:8px; font-size:13px;">
-                Lo strumento integra in un unico ambiente:
-            </p>
-            <ul style="margin-left:22px; margin-bottom:10px; font-size:13px;">
-                <li>Decisioni Operative – Farmacie Medigas</li>
-                <li>Calcolatori ossigeno liquido</li>
-                <li>Libreria Procedure (PDF e flowchart)</li>
-            </ul>
-
-            <p style="font-size:12px; color:#6b7280; margin-top:10px;">
-                Progettazione contenuti operativi: <b>SME – Enzo Motti</b><br>
-                Supporto tecnico e UI: ChatGPT (HUB Medicale Project).<br>
-                Strumento aggiornabile e modulare.
-            </p>
-        </div>
+        <div class="section-title">Info HUB Medicale</div>
+        <p style="margin-top:10px;">
+            Versione 1.1 — Progetto operativo e struttura tecnica integrata.
+        </p>
+        <p style="font-size:12px; color:gray;">
+            Contenuti: <b>SME Enzo Motti</b><br>
+            Struttura tecnica: ChatGPT – HUB Medicale Project
+        </p>
     </div>
 </section>
-</div> <!-- views-wrapper -->
-</main>
-</div> <!-- app-shell -->
 
-<!-- SCRIPT -->
+</div> <!-- views-wrapper -->
+
+</main>
+</div>
+
+<!-- ======================
+     SCRIPT DI CONTROLLO
+====================== -->
 <script>
 function showView(viewId, el) {
-    if (!el) {
-        const nav = document.querySelector('.nav-item[data-view="' + viewId + '"]');
-        if (nav) setActiveNav(nav);
-    } else {
-        setActiveNav(el);
-    }
-
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    const target = document.getElementById('view-' + viewId);
-    if (target) target.classList.add('active');
-}
+    document.getElementById('view-' + viewId).classList.add('active');
 
-function setActiveNav(el) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
+    if (el) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+    }
 }
 
 function activateNav(viewId) {
-    const nav = document.querySelector('.nav-item[data-view="' + viewId + '"]');
-    if (nav) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        nav.classList.add('active');
-    }
+    const nav = document.querySelector('.nav-item[data-view="'+viewId+'"]');
+    if (!nav) return;
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    nav.classList.add('active');
 }
 
-/* ⭐ FORZA AGGIORNAMENTO — evita la cache */
+/* 🔄 Forza aggiornamento cache */
 function forceRefresh() {
-    const random = Math.floor(Math.random() * 1000000);
-    const baseUrl = window.location.origin + window.location.pathname;
-    window.location.href = baseUrl + "?v=" + random;
+    const url = window.location.pathname + "?v=" + Math.floor(Math.random()*999999);
+    window.location.href = url;
 }
 </script>
 

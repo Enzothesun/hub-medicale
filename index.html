@@ -530,7 +530,8 @@ searchInput.addEventListener("input", function () {
 <script>
 function showView(viewId, el) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById('view-' + viewId).classList.add('active');
+    const target = document.getElementById('view-' + viewId);
+    if (target) target.classList.add('active');
 
     if (el) {
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -538,27 +539,12 @@ function showView(viewId, el) {
     }
 }
 
-/* 🔍 SEARCH PROCEDURE – VERSIONE STABILE */
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("procedureSearch");
-    if (!searchInput) return;
-
-    searchInput.addEventListener("input", function () {
-        const query = this.value.toLowerCase();
-
-        document.querySelectorAll(".doc-item").forEach(item => {
-            const text = item.innerText.toLowerCase();
-            const keywords = (item.dataset.keywords || "").toLowerCase();
-
-            const match = text.includes(query) || keywords.includes(query);
-
-            item.style.display = match ? "flex" : "none";
-            item.style.pointerEvents = match ? "auto" : "none";
-            item.style.opacity = match ? "1" : "0.6";
-        });
-    });
-});
+function forceRefresh() {
+    const base = window.location.pathname;
+    window.location.href = base + '?v=' + Math.floor(Math.random() * 100000);
+}
 </script>
+
 
 </body>
 </html>

@@ -526,6 +526,50 @@ function forceRefresh() {
     const url = window.location.pathname + "?v=" + Math.floor(Math.random()*999999);
     window.location.href = url;
 }
+  
+/* ======================
+   🔎 Search v3 – Procedure
+====================== */
+const searchInput = document.getElementById("procedureSearch");
+const clearBtn = document.getElementById("clearSearch");
+const meta = document.getElementById("searchMeta");
+
+if (searchInput) {
+
+  const items = document.querySelectorAll(".doc-item");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    items.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      if (text.includes(query)) {
+        item.style.display = "flex";
+        visibleCount++;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    if (query.length > 0) {
+      meta.innerText = `${visibleCount} procedura/e trovata/e`;
+      clearBtn.style.display = "inline-block";
+    } else {
+      meta.innerText = "";
+      clearBtn.style.display = "none";
+    }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    items.forEach(item => item.style.display = "flex");
+    meta.innerText = "";
+    clearBtn.style.display = "none";
+    searchInput.focus();
+  });
+}
+
 </script>
 
 </body>

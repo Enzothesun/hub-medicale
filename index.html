@@ -528,24 +528,9 @@ searchInput.addEventListener("input", function () {
 });
 
 <script>
-function showView(viewId, el) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    const target = document.getElementById('view-' + viewId);
-    if (target) target.classList.add('active');
 
-    if (el) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        el.classList.add('active');
-    }
-}
-
-function forceRefresh() {
-    const base = window.location.pathname;
-    window.location.href = base + '?v=' + Math.floor(Math.random() * 100000);
-}
-</script>
 alert("JS OK");
 
-
+<script>
 </body>
 </html>

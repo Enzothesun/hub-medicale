@@ -526,8 +526,8 @@ searchInput.addEventListener("input", function () {
         }
     });
 });
-</script>
 
+<script>
 function showView(viewId, el) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + viewId).classList.add('active');
@@ -538,62 +538,26 @@ function showView(viewId, el) {
     }
 }
 
-function activateNav(viewId) {
-    const nav = document.querySelector('.nav-item[data-view="'+viewId+'"]');
-    if (!nav) return;
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    nav.classList.add('active');
-}
+/* 🔍 SEARCH PROCEDURE – VERSIONE STABILE */
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("procedureSearch");
+    if (!searchInput) return;
 
-/* 🔄 Forza aggiornamento cache */
-function forceRefresh() {
-    const url = window.location.pathname + "?v=" + Math.floor(Math.random()*999999);
-    window.location.href = url;
-}
-  
-/* ======================
-   🔎 Search v3 – Procedure
-====================== */
-const searchInput = document.getElementById("procedureSearch");
-const clearBtn = document.getElementById("clearSearch");
-const meta = document.getElementById("searchMeta");
+    searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase();
 
-if (searchInput) {
+        document.querySelectorAll(".doc-item").forEach(item => {
+            const text = item.innerText.toLowerCase();
+            const keywords = (item.dataset.keywords || "").toLowerCase();
 
-  const items = document.querySelectorAll(".doc-item");
+            const match = text.includes(query) || keywords.includes(query);
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase().trim();
-    let visibleCount = 0;
-
-    items.forEach(item => {
-      const text = item.innerText.toLowerCase();
-      if (text.includes(query)) {
-        item.style.display = "flex";
-        visibleCount++;
-      } else {
-        item.style.display = "none";
-      }
+            item.style.display = match ? "flex" : "none";
+            item.style.pointerEvents = match ? "auto" : "none";
+            item.style.opacity = match ? "1" : "0.6";
+        });
     });
-
-    if (query.length > 0) {
-      meta.innerText = `${visibleCount} procedura/e trovata/e`;
-      clearBtn.style.display = "inline-block";
-    } else {
-      meta.innerText = "";
-      clearBtn.style.display = "none";
-    }
-  });
-
-  clearBtn.addEventListener("click", () => {
-    searchInput.value = "";
-    items.forEach(item => item.style.display = "flex");
-    meta.innerText = "";
-    clearBtn.style.display = "none";
-    searchInput.focus();
-  });
-}
-
+});
 </script>
 
 </body>

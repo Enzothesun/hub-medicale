@@ -506,6 +506,28 @@ body {
      SCRIPT DI CONTROLLO
 ====================== -->
 <script>
+   <script>
+/* 🔍 SEARCH PROCEDURE */
+const searchInput = document.getElementById("procedureSearch");
+
+searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+
+    document.querySelectorAll(".doc-item").forEach(item => {
+        const text = item.innerText.toLowerCase();
+        const keywords = (item.dataset.keywords || "").toLowerCase();
+
+        if (text.includes(query) || keywords.includes(query)) {
+            item.style.display = "flex";
+            item.style.pointerEvents = "auto"; // 🔥 fondamentale
+            item.style.opacity = "1";
+        } else {
+            item.style.display = "none";
+        }
+    });
+});
+</script>
+
 function showView(viewId, el) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + viewId).classList.add('active');

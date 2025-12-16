@@ -506,31 +506,73 @@ body {
      SCRIPT DI CONTROLLO
 ====================== -->
 <script>
-   <script>
-/* 🔍 SEARCH PROCEDURE */
-const searchInput = document.getElementById("procedureSearch");
+/* ===== Navigazione viste ===== */
+function showView(viewId, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + viewId);
+  if (target) target.classList.add('active');
 
-searchInput.addEventListener("input", function () {
-    const query = this.value.toLowerCase();
+  if (el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+}
+
+function activateNav(viewId) {
+  const nav = document.querySelector('.nav-item[data-view="'+viewId+'"]');
+  if (!nav) return;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  nav.classList.add('active');
+}
+
+/* ===== Forza aggiornamento ===== */
+function forceRefresh() {
+  const url = window.location.pathname + "?v=" + Math.floor(Math.random()*999999);
+  window.location.href = url;
+}
+
+/* ===== 🔎 SEARCH PROCEDURE v3 ===== */
+const searchInput = document.getElementById("procedureSearch");
+const clearBtn = document.getElementById("clearSearch");
+const searchMeta = document.getElementById("searchMeta");
+
+if (searchInput) {
+  searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase().trim();
+    let visibleCount = 0;
 
     document.querySelectorAll(".doc-item").forEach(item => {
-        const text = item.innerText.toLowerCase();
-        const keywords = (item.dataset.keywords || "").toLowerCase();
+      const text = item.innerText.toLowerCase();
+      const keywords = (item.dataset.keywords || "").toLowerCase();
+      const search = (item.dataset.search || "").toLowerCase();
 
-        if (text.includes(query) || keywords.includes(query)) {
-            item.style.display = "flex";
-            item.style.pointerEvents = "auto"; // 🔥 fondamentale
-            item.style.opacity = "1";
-        } else {
-            item.style.display = "none";
-        }
+      if (!query || text.includes(query) || keywords.includes(query) || search.includes(query)) {
+        item.style.display = "flex";
+        item.style.pointerEvents = "auto";
+        item.style.opacity = "1";
+        visibleCount++;
+      } else {
+        item.style.display = "none";
+      }
     });
-});
 
-<script>
+    if (searchMeta) {
+      if (query) {
+        searchMeta.style.display = "block";
+        searchMeta.textContent = `Risultati trovati: ${visibleCount}`;
+      } else {
+        searchMeta.style.display = "none";
+      }
+    }
+  });
+}
 
-alert("JS OK");
+if (clearBtn && searchInput) {
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchInput.dispatchEvent(new Event("input"));
+  });
+}
+</script>
 
-<script>
-</body>
 </html>

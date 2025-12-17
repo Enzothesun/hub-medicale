@@ -1,131 +1,185 @@
-<!-- STRUMENTO GUIDATO – AUTONOMIA O₂ LIQUIDO -->
-
-<div class="tool-wrap">
-
-  <h1>Calcolo autonomia residua – Contenitore O₂ liquido</h1>
-  <p class="intro">
-    Seleziona il tipo di indicatore e segui il flusso.
-    Le indicazioni testuali riprendono integralmente la flowchart operativa.
-  </p>
-
-  <!-- STEP 1 -->
-  <div class="step">
-    <h2>1. Tipo di indicatore</h2>
-    <button onclick="showBlock('led')">Indicatore LED</button>
-    <button onclick="showBlock('analogico')">Indicatore analogico</button>
-  </div>
-
-  <!-- LED -->
-  <div id="led" class="block hidden">
-    <h2>2. Indicatore LED</h2>
-    <button onclick="showBlock('led8')">8 LED</button>
-    <button onclick="showBlock('led10')">10 LED</button>
-  </div>
-
-  <!-- LED 8 -->
-  <div id="led8" class="block hidden">
-    <h3>LED 8 – quale tacca è accesa</h3>
-
-    <div class="alert green">
-      LED da 5 a 8 accesi<br>
-      <strong>Autonomia sufficiente</strong>
-    </div>
-
-    <div class="alert yellow">
-      LED da 3 a 4 accesi<br>
-      <strong>Verificare autonomia residua</strong>
-    </div>
-
-    <div class="alert red">
-      LED da 1 a 2 accesi<br>
-      <strong>Autonomia critica – attivare procedura</strong>
-    </div>
-
-    <button class="link-btn"
-      onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/', '_blank')">
-      Apri calcolatore autonomia
-    </button>
-  </div>
-
-  <!-- LED 10 -->
-  <div id="led10" class="block hidden">
-    <h3>LED 10 – quale tacca è accesa</h3>
-
-    <div class="alert green">
-      LED da 6 a 10 accesi<br>
-      <strong>Autonomia sufficiente</strong>
-    </div>
-
-    <div class="alert yellow">
-      LED da 3 a 5 accesi<br>
-      <strong>Verificare autonomia residua</strong>
-    </div>
-
-    <div class="alert red">
-      LED da 1 a 2 accesi<br>
-      <strong>Autonomia critica – attivare procedura</strong>
-    </div>
-
-    <button class="link-btn"
-      onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/', '_blank')">
-      Apri calcolatore autonomia
-    </button>
-  </div>
-
-  <!-- ANALOGICO -->
-  <div id="analogico" class="block hidden">
-    <h2>2. Indicatore analogico</h2>
-    <button onclick="showBlock('finestrella')">Finestrella</button>
-    <button onclick="showBlock('lancetta')">Lancetta</button>
-  </div>
-
-  <p class="note">
-    ⚠️ Utilizzare sempre le diciture operative previste dalla procedura.
-  </p>
-</div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Autonomia O₂ liquido – Supporto operativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-.tool-wrap { max-width: 820px; margin: 40px auto; font-family: system-ui; }
-.step, .block { margin-top: 24px; }
-.hidden { display: none; }
-
-button {
-  padding: 10px 16px;
-  margin: 6px 6px 0 0;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background: #009A7E;
-  color: white;
-  font-size: 14px;
+body{
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  background:#f4f7fb;
+  margin:0;
+  padding:20px;
+  color:#0b253a;
 }
 
-.alert {
-  padding: 14px;
-  border-radius: 10px;
-  margin: 12px 0;
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-.green { background: #e6f6f1; border-left: 6px solid #009A7E; }
-.yellow { background: #fff7e6; border-left: 6px solid #f0b429; }
-.red { background: #ffecec; border-left: 6px solid #d64545; }
+h2{margin-top:0}
+.hidden{display:none}
 
-.link-btn {
-  background: #123a5d;
-  margin-top: 10px;
+button{
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  background:#009A7E;
+  color:#fff;
+  font-size:14px;
+  cursor:pointer;
+  margin-right:8px;
+}
+button.secondary{
+  background:#e6f5f1;
+  color:#006d5b;
 }
 
-.note {
-  margin-top: 30px;
-  font-size: 13px;
-  color: #555;
+select,input{
+  margin-top:10px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  width:100%;
+  max-width:360px;
 }
+ul{margin-top:8px}
+hr{margin:20px 0}
 </style>
+</head>
+
+<body>
+
+<!-- STEP 1 -->
+<div class="card">
+  <h2>Step 1 – Che indicatore di livello ha il contenitore?</h2>
+  <p>
+    È quello con le <b>lucine che si accendono quando preme il pulsante (LED)</b><br>
+    oppure è un indicatore <b>analogico</b>?
+  </p>
+
+  <button onclick="goLED()">Indicatore a LED</button>
+  <button class="secondary" onclick="goAnalogico()">Indicatore analogico</button>
+</div>
+
+<!-- STEP 2 – LED: 8 o 10 -->
+<div id="step-led-type" class="card hidden">
+  <h2>Indicatore a LED</h2>
+  <p>
+    Il contenitore ha un indicatore a <b>8 LED</b> o a <b>10 LED</b>?
+  </p>
+
+  <button onclick="goLEDLevel(8)">8 LED</button>
+  <button onclick="goLEDLevel(10)">10 LED</button>
+</div>
+
+<!-- STEP 3 – LED dettaglio -->
+<div id="step-led-detail" class="card hidden">
+  <h2>Indicatore a LED – Lettura livello</h2>
+
+  <p>
+    Mi dice quale LED si accende quando preme il pulsante di test?<br>
+    <b>Si accende un solo LED</b>, quello che indica il livello dell’ossigeno.
+  </p>
+
+  <p>
+    Guardando la <b>scala colorata</b>, dal lato <b>rosso</b> verso il lato <b>verde</b>,
+    mi dica quale LED si accende:
+  </p>
+
+  <ul>
+    <li>ultimo rosso</li>
+    <li>penultimo giallo</li>
+    <li>terzultimo giallo</li>
+    <li>uno dei verdi successivi</li>
+  </ul>
+
+  <select>
+    <option value="">Seleziona il LED acceso</option>
+    <option>Ultimo rosso</option>
+    <option>Penultimo giallo</option>
+    <option>Terzultimo giallo</option>
+    <option>Verde (1)</option>
+    <option>Verde (2)</option>
+    <option>Verde (3)</option>
+    <option>Verde (4)</option>
+    <option>Verde (5)</option>
+    <option>Verde (6)</option>
+    <option>Verde (7)</option>
+    <option>Verde (8)</option>
+    <option>Verde (9)</option>
+    <option>Verde (10)</option>
+  </select>
+</div>
+
+<!-- STEP ANALOGICO -->
+<div id="step-analogico" class="card hidden">
+  <h2>Indicatore analogico</h2>
+
+  <h3>Indicatore a finestrella</h3>
+  <p>
+    Mi dice in quale <b>zona colorata</b> si trova l’indicatore:
+    <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
+  </p>
+
+  <select>
+    <option value="">Seleziona la zona</option>
+    <option>Verde</option>
+    <option>Gialla</option>
+    <option>Rossa</option>
+  </select>
+
+  <hr>
+
+  <h3>Indicatore a lancetta</h3>
+  <p>
+    Mi dice dove si trova la <b>lancetta</b> sul cerchietto colorato?
+    È nella zona <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
+  </p>
+
+  <p>
+    Se vede anche i numeri, mi dica a che livello punta l’ago
+    (<b>da 0 a 10</b>).
+  </p>
+
+  <select>
+    <option value="">Zona</option>
+    <option>Verde</option>
+    <option>Gialla</option>
+    <option>Rossa</option>
+  </select>
+
+  <input type="number" min="0" max="10" placeholder="Livello (0–10)">
+</div>
 
 <script>
-function showBlock(id) {
-  document.querySelectorAll('.block').forEach(b => b.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
+function hideAll(){
+  document.querySelectorAll('.card').forEach(c=>{
+    if(!c.querySelector('h2')?.innerText.startsWith('Step 1'))
+      c.classList.add('hidden');
+  });
+}
+
+function goLED(){
+  hideAll();
+  document.getElementById('step-led-type').classList.remove('hidden');
+}
+
+function goLEDLevel(){
+  hideAll();
+  document.getElementById('step-led-detail').classList.remove('hidden');
+}
+
+function goAnalogico(){
+  hideAll();
+  document.getElementById('step-analogico').classList.remove('hidden');
 }
 </script>
 
+</body>
+</html>

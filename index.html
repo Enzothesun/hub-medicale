@@ -2,244 +2,205 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Autonomia O₂ liquido – Supporto operativo</title>
+<title>HUB Medicale – Decisioni Operative</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-:root{
-  --accent:#009A7E;
-  --accent-soft:#CFF8EE;
-  --bg:#f4f7fb;
-  --text:#0b253a;
-  --muted:#6b7a8c;
-  --card:#ffffff;
-  --radius:18px;
-  --shadow:0 10px 28px rgba(0,0,0,.15);
+:root {
+  --accent: #009A7E;
+  --accent-light: #CFF8EE;
+  --sidebar-bg: #0f2740;
+  --sidebar-bg-2: #163c63;
+  --text-main: #0b253a;
+  --text-muted: #6b7a8c;
+  --radius: 18px;
+  --shadow-soft: 0 4px 14px rgba(0,0,0,.12);
 }
 
-body{
-  margin:0;
-  font-family:"Segoe UI",system-ui,sans-serif;
-  background:radial-gradient(circle at top left,#e0f7f2,#f4f7fb 40%,#e9fcf7);
-  color:var(--text);
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(circle at top left, #e0f7f2, #f4f7fb 40%, #e9fcf7);
+  color: var(--text-main);
 }
 
-.wrapper{
-  max-width:900px;
-  margin:0 auto;
-  padding:28px;
+.app-shell {
+  display: flex;
+  min-height: 100vh;
 }
 
-.header{
-  margin-bottom:20px;
+/* SIDEBAR */
+.sidebar {
+  width: 72px;
+  background: linear-gradient(180deg, var(--sidebar-bg), var(--sidebar-bg-2));
+  padding: 16px 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: width .25s ease;
 }
 
-.header h1{
-  margin:0;
-  font-size:26px;
+.sidebar:hover { width: 220px; }
+
+.sidebar-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
 }
 
-.header p{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:14px;
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
-.card{
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:24px;
-  box-shadow:var(--shadow);
-  margin-bottom:20px;
+.nav-item:hover {
+  background: rgba(255,255,255,.1);
 }
 
-.step-title{
-  font-size:20px;
-  font-weight:700;
-  margin-bottom:10px;
+.nav-label {
+  opacity: 0;
+  transition: opacity .2s;
 }
 
-.step-text{
-  font-size:15px;
-  line-height:1.5;
-  margin-bottom:16px;
+.sidebar:hover .nav-label { opacity: 1; }
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 28px;
 }
 
-.actions{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
+.card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: var(--shadow-soft);
 }
 
-.btn{
-  background:linear-gradient(135deg,var(--accent),var(--accent-soft));
-  border:none;
-  border-radius:14px;
-  padding:14px 20px;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-  color:#062c25;
-  box-shadow:0 6px 16px rgba(0,0,0,.18);
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.btn:hover{
-  filter:brightness(1.05);
+.section-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
 }
 
-.hidden{
-  display:none;
+/* DASHBOARD */
+.dashboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.select, input[type="number"]{
-  width:100%;
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid #b7e9df;
-  font-size:14px;
-  margin-top:8px;
+.dash-tile {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  padding: 22px 26px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: transform .2s;
 }
 
-ul{
-  margin:8px 0 12px 18px;
+.dash-tile:hover { transform: translateY(-3px); }
+
+.dash-title {
+  font-size: 18px;
+  font-weight: 600;
 }
 
-hr{
-  border:none;
-  border-top:1px solid #e3eef0;
-  margin:20px 0;
-}
-
-.footer-note{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:10px;
+.dash-sub {
+  font-size: 12px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="app-shell">
 
-  <div class="header">
-    <h1>Autonomia O₂ liquido</h1>
-    <p>Supporto operativo basato sull’indicatore di livello del contenitore</p>
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">HM</div>
 
-  <!-- STEP 1 -->
-  <div class="card">
-    <div class="step-title">
-      Step 1 – Che indicatore di livello ha il contenitore?
+    <div class="nav-item">
+      <span>🏠</span>
+      <span class="nav-label">Dashboard</span>
     </div>
 
-    <div class="step-text">
-      È quello con le <b>lucine che si accendono quando preme il pulsante</b> (LED)<br>
-      oppure è un indicatore <b>analogico</b>?
+    <div class="nav-item">
+      <span>📚</span>
+      <span class="nav-label">Procedure</span>
     </div>
+  </aside>
 
-    <div class="actions">
-      <button class="btn" onclick="showSection('led')">Indicatore a LED</button>
-      <button class="btn" onclick="showSection('analogico')">Indicatore analogico</button>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="card">
+      <div class="section-title">Dashboard</div>
+      <div class="section-sub">Scegli lo strumento necessario</div>
+
+      <div class="dashboard-list">
+
+        <!-- Farmacie Medigas -->
+        <div class="dash-tile"
+          onclick="window.open('https://enzothesun.github.io/decisione-operativa-farmacie/', '_blank')">
+          <div>
+            <div class="dash-title">Farmacie Medigas</div>
+            <div class="dash-sub">Decisioni operative ossigeno gassoso</div>
+          </div>
+          ➜
+        </div>
+
+        <!-- Calcolatori Ossigeno -->
+        <div class="dash-tile"
+          onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/', '_blank')">
+          <div>
+            <div class="dash-title">Calcolatori Ossigeno</div>
+            <div class="dash-sub">Autonomia residua e strumenti tecnici</div>
+          </div>
+          ➜
+        </div>
+
+        <!-- Autonomia O2 liquido -->
+        <div class="dash-tile"
+          onclick="window.open('tools/autonomia-ossigeno-liquido/', '_blank')">
+          <div>
+            <div class="dash-title">Autonomia O₂ liquido</div>
+            <div class="dash-sub">Supporto operativo da indicatore (LED / analogico)</div>
+          </div>
+          ➜
+        </div>
+
+        <!-- Magaldi -->
+        <div class="dash-tile"
+          onclick="window.open('https://enzothesun.github.io/decisione-operativa/', '_blank')">
+          <div>
+            <div class="dash-title">Magaldi</div>
+            <div class="dash-sub">Decisioni operative ossigeno liquido e gassoso</div>
+          </div>
+          ➜
+        </div>
+
+      </div>
     </div>
-  </div>
-
-  <!-- STEP 3 – LED -->
-  <div id="led" class="card hidden">
-    <div class="step-title">Indicatore a LED</div>
-
-    <div class="step-text">
-      Mi dice <b>quale LED si accende</b> quando preme il pulsante di test?<br>
-      <b>Si accende un solo LED</b>, quello che indica il livello dell’ossigeno.
-    </div>
-
-    <div class="step-text">
-      Guardando la <b>scala colorata</b>, dal lato <b>rosso</b> verso il lato <b>verde</b>,
-      mi dica quale LED si accende:
-    </div>
-
-    <ul>
-      <li>l’ultimo rosso</li>
-      <li>il penultimo giallo</li>
-      <li>il terzultimo giallo</li>
-      <li>oppure uno dei verdi successivi (fino all’ottavo)</li>
-    </ul>
-
-    <select class="select">
-      <option>Seleziona il LED acceso</option>
-      <option>Ultimo rosso</option>
-      <option>Penultimo giallo</option>
-      <option>Terzultimo giallo</option>
-      <option>Verde 1</option>
-      <option>Verde 2</option>
-      <option>Verde 3</option>
-      <option>Verde 4</option>
-      <option>Verde 5</option>
-      <option>Verde 6</option>
-      <option>Verde 7</option>
-      <option>Verde 8</option>
-    </select>
-
-    <div class="footer-note">
-      Nota: fare sempre riferimento al colore del LED acceso.
-    </div>
-  </div>
-
-  <!-- STEP 3 – ANALOGICO -->
-  <div id="analogico" class="card hidden">
-    <div class="step-title">Indicatore analogico</div>
-
-    <div class="step-text">
-      Identifichiamo il tipo di indicatore analogico presente.
-    </div>
-
-    <hr>
-
-    <div class="step-text">
-      <b>Indicatore a finestrella</b><br>
-      Mi dice in quale <b>zona colorata</b> si trova l’indicatore:
-      <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
-    </div>
-
-    <select class="select">
-      <option>Seleziona la zona</option>
-      <option>Verde</option>
-      <option>Gialla</option>
-      <option>Rossa</option>
-    </select>
-
-    <hr>
-
-    <div class="step-text">
-      <b>Indicatore a lancetta</b><br>
-      Mi dice dove si trova la <b>lancetta</b> sul cerchietto colorato?
-      È nella zona <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
-    </div>
-
-    <select class="select">
-      <option>Seleziona la zona</option>
-      <option>Verde</option>
-      <option>Gialla</option>
-      <option>Rossa</option>
-    </select>
-
-    <div class="step-text" style="margin-top:12px;">
-      Se vede anche i numeri, mi dica a che livello punta l’ago
-      (<b>da 0 a 10</b>).
-    </div>
-
-    <input type="number" min="0" max="10" placeholder="Livello (0–10)">
-  </div>
+  </main>
 
 </div>
-
-<script>
-function showSection(id){
-  document.getElementById('led').classList.add('hidden');
-  document.getElementById('analogico').classList.add('hidden');
-  document.getElementById(id).classList.remove('hidden');
-}
-</script>
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>HUB Medicale</title>
+<title>HUB Medicale – Decisioni Operative</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -14,7 +14,7 @@
   --text-main:#0b253a;
   --text-muted:#6b7a8c;
   --radius:18px;
-  --shadow:0 6px 18px rgba(0,0,0,.15);
+  --shadow:0 4px 14px rgba(0,0,0,.12);
 }
 
 body{
@@ -24,35 +24,20 @@ body{
   color:var(--text-main);
 }
 
-.app-shell{
-  display:flex;
-  min-height:100vh;
-}
+.app-shell{display:flex;min-height:100vh}
 
-/* ===== SIDEBAR ===== */
+/* SIDEBAR */
 .sidebar{
   width:72px;
   background:linear-gradient(180deg,var(--sidebar-bg),var(--sidebar-bg-2));
   padding:16px 12px;
-  color:#fff;
+  color:white;
   display:flex;
   flex-direction:column;
   gap:16px;
   transition:width .25s ease;
 }
-
-.sidebar:hover{ width:220px; }
-
-.sidebar-logo{
-  width:38px;
-  height:38px;
-  border-radius:14px;
-  background:var(--accent);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-}
+.sidebar:hover{width:220px}
 
 .nav-item{
   display:flex;
@@ -61,51 +46,27 @@ body{
   padding:10px;
   border-radius:12px;
   cursor:pointer;
-  opacity:.85;
 }
+.nav-item:hover{background:rgba(255,255,255,.1)}
+.nav-item.active{background:rgba(255,255,255,.18)}
 
-.nav-item:hover{ background:rgba(255,255,255,.12); }
-.nav-item.active{
-  background:linear-gradient(90deg,var(--accent),#42a5f5);
-  opacity:1;
-}
+.nav-label{opacity:0;transition:.2s}
+.sidebar:hover .nav-label{opacity:1}
 
-.nav-label{
-  opacity:0;
-  transition:opacity .2s;
-}
-.sidebar:hover .nav-label{ opacity:1; }
-
-/* ===== MAIN ===== */
-.main{
-  flex:1;
-  padding:28px;
-}
-
+/* MAIN */
+.main{flex:1;padding:28px}
 .card{
-  background:#fff;
+  background:white;
   border-radius:var(--radius);
   padding:26px;
   box-shadow:var(--shadow);
 }
 
-.section-title{
-  font-size:22px;
-  font-weight:700;
-}
-.section-sub{
-  font-size:14px;
-  color:var(--text-muted);
-  margin-bottom:18px;
-}
+.section-title{font-size:22px;font-weight:700}
+.section-sub{font-size:14px;color:var(--text-muted);margin-bottom:18px}
 
-/* ===== DASHBOARD ===== */
-.dashboard-list{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
+/* DASHBOARD */
+.dashboard-list{display:flex;flex-direction:column;gap:18px}
 .dash-tile{
   background:linear-gradient(135deg,var(--accent),var(--accent-light));
   padding:22px 26px;
@@ -116,15 +77,25 @@ body{
   cursor:pointer;
   transition:transform .2s;
 }
+.dash-tile:hover{transform:translateY(-3px)}
 
-.dash-tile:hover{ transform:translateY(-3px); }
+.dash-title{font-size:18px;font-weight:600}
+.dash-sub{font-size:12px}
 
-.dash-title{ font-size:18px; font-weight:600; }
-.dash-sub{ font-size:12px; }
+/* VIEWS */
+.view{display:none}
+.view.active{display:block}
 
-/* ===== VIEWS ===== */
-.view{ display:none; }
-.view.active{ display:block; }
+/* BUTTON */
+.refresh-btn{
+  margin-bottom:16px;
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -132,105 +103,92 @@ body{
 
 <div class="app-shell">
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-logo">HM</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="nav-item active" onclick="showView('dashboard',this)">
+      <span>🏠</span><span class="nav-label">Dashboard</span>
+    </div>
+    <div class="nav-item" onclick="showView('procedure',this)">
+      <span>📚</span><span class="nav-label">Procedure</span>
+    </div>
+  </aside>
 
-  <div class="nav-item active" onclick="showView('dashboard',this)">
-    <span>🏠</span>
-    <span class="nav-label">Dashboard</span>
-  </div>
+  <!-- MAIN -->
+  <main class="main">
 
-  <div class="nav-item" onclick="showView('procedure',this)">
-    <span>📚</span>
-    <span class="nav-label">Procedure</span>
-  </div>
-</aside>
+    <button class="refresh-btn" onclick="forceRefresh()">🔄 Forza aggiornamento</button>
 
-<!-- MAIN -->
-<main class="main">
-<button
-  onclick="forceRefresh()"
-  style="
-    align-self:flex-end;
-    margin-bottom:14px;
-    background:#009A7E;
-    color:white;
-    border:none;
-    padding:8px 14px;
-    border-radius:10px;
-    font-size:13px;
-    cursor:pointer;
-  ">
-  🔄 Forza aggiornamento
-</button>
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view active">
+      <div class="card">
+        <div class="section-title">Dashboard</div>
+        <div class="section-sub">Scegli lo strumento necessario</div>
 
-  <!-- DASHBOARD -->
-  <section id="view-dashboard" class="view active">
-    <div class="card">
-      <div class="section-title">Dashboard</div>
-      <div class="section-sub">Scegli lo strumento necessario</div>
+        <div class="dashboard-list">
 
-      <div class="dashboard-list">
+          <div class="dash-tile"
+            onclick="window.open('https://enzothesun.github.io/decisione-operativa-farmacie/','_blank')">
+            <div>
+              <div class="dash-title">Farmacie Medigas</div>
+              <div class="dash-sub">Decisioni operative ossigeno gassoso</div>
+            </div>➜
+          </div>
 
-        <div class="dash-tile"
-          onclick="window.open('https://enzothesun.github.io/decisione-operativa-farmacie/','_blank')">
-          <div>
-            <div class="dash-title">Farmacie Medigas</div>
-            <div class="dash-sub">Decisioni operative ossigeno gassoso</div>
-          </div>➜
+          <div class="dash-tile"
+            onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/','_blank')">
+            <div>
+              <div class="dash-title">Calcolatori Ossigeno</div>
+              <div class="dash-sub">Autonomia residua e strumenti tecnici</div>
+            </div>➜
+          </div>
+
+          <div class="dash-tile"
+            onclick="window.open('tools/autonomia-ossigeno-liquido/','_blank')">
+            <div>
+              <div class="dash-title">Autonomia O₂ liquido</div>
+              <div class="dash-sub">Supporto operativo da indicatore</div>
+            </div>➜
+          </div>
+
+          <div class="dash-tile"
+            onclick="window.open('https://enzothesun.github.io/decisione-operativa/','_blank')">
+            <div>
+              <div class="dash-title">Magaldi</div>
+              <div class="dash-sub">Liquido e gassoso</div>
+            </div>➜
+          </div>
+
         </div>
-
-        <div class="dash-tile"
-          onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/','_blank')">
-          <div>
-            <div class="dash-title">Calcolatori Ossigeno</div>
-            <div class="dash-sub">Autonomia residua</div>
-          </div>➜
-        </div>
-
-        <div class="dash-tile"
-          onclick="window.open('https://enzothesun.github.io/decisione-operativa/','_blank')">
-          <div>
-            <div class="dash-title">Magaldi</div>
-            <div class="dash-sub">Liquido e gassoso</div>
-          </div>➜
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROCEDURE -->
-  <section id="view-procedure" class="view">
-    <div class="card">
-      <div class="section-title">Procedure operative</div>
-      <div class="section-sub">Libreria documentale</div>
+    <!-- PROCEDURE -->
+    <section id="view-procedure" class="view">
+      <div class="card">
+        <div class="section-title">Procedure operative</div>
+        <div class="section-sub">Libreria documentale</div>
 
-      <p style="font-size:14px;color:var(--text-muted)">
-        Qui inseriremo le procedure PDF e la search (step successivo).
-      </p>
-    </div>
-  </section>
+        <p style="color:var(--text-muted)">
+          (Qui reinseriremo l’elenco procedure, una volta stabilizzata la base)
+        </p>
+      </div>
+    </section>
 
-</main>
+  </main>
 </div>
 
 <script>
-function showView(viewId, el){
-  document.querySelectorAll('.view').forEach(v=>{
-    v.classList.remove('active');
-    v.style.display='none';
-  });
-
-  const target=document.getElementById('view-'+viewId);
-  if(target){
-    target.classList.add('active');
-    target.style.display='block';
-  }
+function showView(view,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
 
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(el) el.classList.add('active');
+  el.classList.add('active');
+}
+
+function forceRefresh(){
+  const base = window.location.origin + window.location.pathname;
+  window.location.href = base + '?v=' + Date.now();
 }
 </script>
 

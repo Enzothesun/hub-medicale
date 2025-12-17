@@ -366,6 +366,98 @@ body {
      MAIN CONTENT
 ====================== -->
 <main class="main">
+<div class="card">
+
+  <!-- STEP 1 -->
+  <h2>Step 1 – Che indicatore di livello ha il contenitore?</h2>
+  <p>
+    È quello con le <b>lucine che si accendono quando preme il pulsante (LED)</b><br>
+    oppure è un indicatore <b>analogico</b>?
+  </p>
+
+  <button onclick="showSection('led')">Indicatore a LED</button>
+  <button onclick="showSection('analogico')">Indicatore analogico</button>
+
+</div>
+
+<!-- STEP 3 – LED -->
+<div id="led" class="card" style="display:none; margin-top:20px;">
+  <h2>Indicatore a LED</h2>
+  <p>
+    Mi dice quale LED si accende quando preme il pulsante di test?<br>
+    <b>Si accende un solo LED</b>, quello che indica il livello dell’ossigeno.
+  </p>
+  <p>
+    Guardando la <b>scala colorata</b>, dal lato <b>rosso</b> verso il lato <b>verde</b>,
+    mi dica quale LED si accende:
+  </p>
+  <ul>
+    <li>ultimo rosso</li>
+    <li>penultimo giallo</li>
+    <li>terzultimo giallo</li>
+    <li>uno dei verdi successivi (fino all’ottavo)</li>
+  </ul>
+
+  <select>
+    <option>Seleziona il LED acceso</option>
+    <option>Ultimo rosso</option>
+    <option>Penultimo giallo</option>
+    <option>Terzultimo giallo</option>
+    <option>Verde (1)</option>
+    <option>Verde (2)</option>
+    <option>Verde (3)</option>
+    <option>Verde (4)</option>
+    <option>Verde (5)</option>
+  </select>
+</div>
+
+<!-- STEP 3 – ANALOGICO -->
+<div id="analogico" class="card" style="display:none; margin-top:20px;">
+  <h2>Indicatore analogico</h2>
+
+  <h3>Indicatore a finestrella</h3>
+  <p>
+    Mi dice in quale <b>zona colorata</b> si trova l’indicatore:
+    <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
+  </p>
+
+  <select>
+    <option>Seleziona la zona</option>
+    <option>Verde</option>
+    <option>Gialla</option>
+    <option>Rossa</option>
+  </select>
+
+  <hr>
+
+  <h3>Indicatore a lancetta</h3>
+  <p>
+    Mi dice dove si trova la <b>lancetta</b> sul cerchietto colorato?<br>
+    È nella zona <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
+  </p>
+
+  <p>
+    Se vede anche i numeri, mi dica a che livello punta l’ago
+    (<b>da 0 a 10</b>).
+  </p>
+
+  <select>
+    <option>Zona</option>
+    <option>Verde</option>
+    <option>Gialla</option>
+    <option>Rossa</option>
+  </select>
+
+  <input type="number" min="0" max="10" placeholder="Livello (0–10)">
+</div>
+
+<script>
+function showSection(id) {
+  document.getElementById('led').style.display = 'none';
+  document.getElementById('analogico').style.display = 'none';
+  document.getElementById(id).style.display = 'block';
+}
+</script>
 
     <!-- 🔄 Pulsante aggiornamento -->
     <button class="refresh-btn" onclick="forceRefresh()">🔄 Forza aggiornamento</button>

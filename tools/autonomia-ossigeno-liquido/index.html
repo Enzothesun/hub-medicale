@@ -1,755 +1,228 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Autonomia O₂ liquido – Supporto operativo</title>
+<meta charset="UTF-8">
+<title>Autonomia O₂ liquido – Supporto operativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    :root{
-      --accent:#009A7E;
-      --accent-light:#CFF8EE;
-      --bg: radial-gradient(circle at top left, #e0f7f2, #f4f7fb 40%, #e9fcf7);
-      --text:#0b253a;
-      --muted:#6b7a8c;
-      --card:#ffffff;
-      --radius:18px;
-      --shadow: 0 10px 28px rgba(0,0,0,.18);
-      --shadow-soft: 0 4px 14px rgba(0,0,0,.10);
-      --border: #b7e9df;
-    }
+<style>
+:root{
+  --accent:#009A7E;
+  --accent-light:#CFF8EE;
+  --text-main:#0b253a;
+  --text-muted:#6b7a8c;
+  --card:#ffffff;
+  --radius:18px;
+  --shadow:0 6px 18px rgba(0,0,0,.12);
+}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,sans-serif;
+  background:radial-gradient(circle at top left,#e0f7f2,#f4f7fb 40%,#e9fcf7);
+  color:var(--text-main);
+}
 
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 22px;
-    }
+.container{
+  max-width:900px;
+  margin:40px auto;
+  padding:0 20px;
+}
 
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 14px;
-    }
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
+}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
+h1{
+  margin-top:0;
+  font-size:26px;
+}
 
-    .logo{
-      width:40px;height:40px;
-      border-radius:14px;
-      background: var(--accent);
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      letter-spacing:.3px;
-      box-shadow: var(--shadow-soft);
-      flex: 0 0 auto;
-    }
+h2{
+  font-size:20px;
+  margin-top:0;
+}
 
-    .titleblock .h1{
-      font-size:18px;
-      font-weight:800;
-      line-height:1.1;
-    }
-    .titleblock .sub{
-      font-size:12px;
-      color: var(--muted);
-      margin-top:2px;
-    }
+p{
+  line-height:1.5;
+}
 
-    .btn{
-      border:0;
-      cursor:pointer;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-weight:700;
-      box-shadow: var(--shadow-soft);
-      transition: transform .15s ease, filter .15s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      white-space:nowrap;
-    }
-    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-    .btn:active{ transform: translateY(0px); }
+.choice-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:16px;
+}
 
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color:#062c25;
-    }
+.choice-btn{
+  border:none;
+  border-radius:14px;
+  padding:14px 18px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+  background:linear-gradient(135deg,var(--accent),var(--accent-light));
+  color:#062c25;
+}
 
-    .btn-ghost{
-      background: rgba(0,0,0,.05);
-      color: var(--text);
-      box-shadow:none;
-      border: 1px solid rgba(0,0,0,.06);
-    }
+.choice-btn:hover{
+  filter:brightness(1.05);
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+.note{
+  margin-top:16px;
+  font-size:14px;
+  color:var(--text-muted);
+}
 
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 18px;
-      border: 1px solid rgba(0,0,0,.04);
-    }
+.hidden{
+  display:none;
+}
 
-    .card h2{
-      margin:0 0 8px 0;
-      font-size:18px;
-      font-weight:800;
-    }
-    .hint{
-      font-size:13px;
-      color: var(--muted);
-      margin: 0 0 12px 0;
-      line-height:1.35;
-    }
-
-    .q{
-      font-size:14px;
-      font-weight:800;
-      margin: 12px 0 8px 0;
-    }
-
-    .qtext{
-      font-size:14px;
-      line-height:1.45;
-      margin: 0 0 12px 0;
-    }
-
-    .choices{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top: 10px;
-    }
-
-    .chip{
-      border: 1px solid rgba(0,0,0,.08);
-      background: #fff;
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      cursor:pointer;
-      font-weight:800;
-      transition: transform .12s ease, background .12s ease, border .12s ease;
-    }
-    .chip:hover{ transform: translateY(-1px); background:#f7fffd; border-color: var(--border); }
-    .chip.active{
-      background: #eafff7;
-      border-color: var(--border);
-      box-shadow: 0 8px 18px rgba(0,154,126,.12);
-    }
-
-    .row{
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width: 210px;
-      flex: 1 1 240px;
-    }
-
-    label{
-      font-size:12px;
-      color: var(--muted);
-      font-weight:700;
-    }
-
-    select,input{
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 11px 12px;
-      font-size:14px;
-      outline:none;
-      background:#fff;
-    }
-
-    .divider{
-      height:1px;
-      background: rgba(0,0,0,.08);
-      margin: 14px 0;
-    }
-
-    .stepper{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin: 10px 0 0 0;
-      padding:0;
-      list-style:none;
-    }
-    .stepdot{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.04);
-      color: var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
-    .stepdot.on{
-      background: rgba(0,154,126,.12);
-      color: #0b3d31;
-    }
-
-    .footer-actions{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-
-    .okline{
-      font-size:12px;
-      color: var(--muted);
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,.06);
-      background: rgba(255,255,255,.7);
-      color: var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
-
-    .hidden{ display:none !important; }
-  </style>
+.final-btn{
+  margin-top:24px;
+  display:inline-block;
+  padding:16px 22px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-light));
+  color:#062c25;
+  font-weight:700;
+  text-decoration:none;
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
 
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo">O₂</div>
-        <div class="titleblock">
-          <div class="h1">Autonomia O₂ liquido</div>
-          <div class="sub">Supporto operativo basato sull’indicatore di livello (senza decisioni automatiche)</div>
-        </div>
-      </div>
+<div class="container">
 
-      <button class="btn btn-ghost" id="resetBtn" title="Reset">
-        ↺ Reset
-      </button>
-    </div>
+  <!-- STEP 1 -->
+  <div class="card">
+    <h1>Autonomia O₂ liquido</h1>
+    <h2>Step 1 – Che indicatore di livello ha il contenitore?</h2>
 
-    <ul class="stepper">
-      <li class="stepdot on" id="dot1">1 · Indicatore</li>
-      <li class="stepdot" id="dot2">2 · Lettura livello</li>
-      <li class="stepdot" id="dot3">3 · Flusso & ore</li>
-      <li class="stepdot" id="dot4">4 · Calcolatore</li>
-    </ul>
+    <p>
+      È quello con le <b>lucine che si accendono quando preme il pulsante (LED)</b><br>
+      oppure è un indicatore <b>analogico</b>?
+    </p>
 
-    <div class="grid">
-
-      <!-- STEP 1 -->
-      <section class="card" id="step1">
-        <h2>Step 1 — Indicatore di livello</h2>
-        <p class="hint">
-          Qui raccogliamo <b>il tipo di indicatore</b>. Nessuna stima: poi si usa sempre il calcolatore.
-        </p>
-
-        <div class="q">Domanda</div>
-        <p class="qtext">
-          <b>“Che indicatore di livello ha il contenitore?”</b><br>
-          È quello con le <b>lucine che si accendono quando preme il pulsante (LED)</b> oppure è un indicatore <b>analogico</b>?
-        </p>
-
-        <div class="choices">
-          <button class="chip" id="pickLed">Indicatore a LED</button>
-          <button class="chip" id="pickAnalog">Indicatore analogico</button>
-        </div>
-
-        <div class="footer-actions">
-          <span class="okline" id="s1meta"></span>
-          <button class="btn btn-primary" id="toStep2" disabled>Continua ➜</button>
-        </div>
-      </section>
-
-      <!-- STEP 2A LED -->
-      <section class="card hidden" id="step2_led">
-        <h2>Step 2 — Lettura livello (LED)</h2>
-
-        <div class="q">Domanda 1</div>
-        <p class="qtext"><b>“Il contenitore ha 8 LED o 10 LED?”</b></p>
-
-        <div class="choices">
-          <button class="chip" id="led8">8 LED</button>
-          <button class="chip" id="led10">10 LED</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="q">Domanda 2 (testo completo)</div>
-        <p class="qtext">
-          <b>“Mi dice quale LED si accende quando preme il pulsante di test?</b><br>
-          Si accende un solo LED, quello che indica il livello dell’ossigeno.<br>
-          Guardando la scala colorata, dal lato rosso verso il lato verde, mi dica quale LED si accende:
-          <br>— l’ultimo rosso
-          <br>— il penultimo giallo
-          <br>— il terzultimo giallo
-          <br>— oppure uno dei verdi successivi”
-        </p>
-
-        <div class="row">
-          <div class="field" style="min-width:260px;">
-            <label for="ledWhich">Seleziona il LED che si accende</label>
-            <select id="ledWhich">
-              <option value="">Seleziona…</option>
-            </select>
-          </div>
-
-          <span class="badge" id="ledMeta" title="Nota interna (non decisionale)">ℹ️ Verdi: —</span>
-        </div>
-
-        <div class="footer-actions">
-          <button class="btn btn-ghost" id="back1_led">← Indietro</button>
-          <button class="btn btn-primary" id="toStep3_fromLed" disabled>Continua ➜</button>
-        </div>
-      </section>
-
-      <!-- STEP 2B ANALOGICO -->
-      <section class="card hidden" id="step2_analog">
-        <h2>Step 2 — Lettura livello (Analogico)</h2>
-
-        <div class="q">Prima cosa</div>
-        <p class="qtext"><b>Se è analogico: è a finestrella o a lancetta?</b></p>
-
-        <div class="choices">
-          <button class="chip" id="pickWindow">A finestrella</button>
-          <button class="chip" id="pickNeedle">A lancetta</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Finestrella -->
-        <div id="windowBlock" class="hidden">
-          <div class="q">Analogico – finestrella (domanda corretta)</div>
-          <p class="qtext">
-            <b>“Guardi la finestrella con la scala: a che livello si trova la tacca giallognola o verde?</b><br>
-            È su <b>1/1</b>, su <b>1/2</b>, su <b>0</b>, oppure <b>a metà</b> (tra 1/1 e 1/2 oppure tra 1/2 e 0)?”
-          </p>
-
-          <div class="field">
-            <label for="windowLevel">Seleziona livello</label>
-            <select id="windowLevel">
-              <option value="">Seleziona…</option>
-              <option>1/1</option>
-              <option>Tra 1/1 e 1/2</option>
-              <option>1/2</option>
-              <option>Tra 1/2 e 0</option>
-              <option>0</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Lancetta -->
-        <div id="needleBlock" class="hidden">
-          <div class="q">Analogico – lancetta</div>
-          <p class="qtext">
-            <b>“Mi dice dove si trova la lancetta sul cerchietto colorato?</b><br>
-            È nella zona <b>verde</b>, nella zona <b>gialla</b>, o nella zona <b>rossa</b>?”
-          </p>
-
-          <div class="field">
-            <label for="needleZone">Zona</label>
-            <select id="needleZone">
-              <option value="">Seleziona…</option>
-              <option>Verde</option>
-              <option>Gialla</option>
-              <option>Rossa</option>
-            </select>
-          </div>
-
-          <div class="divider"></div>
-
-          <p class="qtext">
-            <b>“Se vede anche i numeri, mi dica a che livello punta l’ago (da 0 a 10).”</b>
-          </p>
-
-          <div class="field">
-            <label for="needleValue">Valore (0–10) — opzionale</label>
-            <input id="needleValue" type="number" min="0" max="10" placeholder="Es. 7" />
-          </div>
-        </div>
-
-        <div class="footer-actions">
-          <button class="btn btn-ghost" id="back1_analog">← Indietro</button>
-          <button class="btn btn-primary" id="toStep3_fromAnalog" disabled>Continua ➜</button>
-        </div>
-      </section>
-
-      <!-- STEP 3 FLUSSO & ORE (sempre) -->
-      <section class="card hidden" id="step3">
-        <h2>Step 3 — Flusso e ore (sempre obbligatorio)</h2>
-        <p class="hint">
-          Anche se il livello è “verde”, con terapie alte l’autonomia può essere bassa:
-          per questo <b>si usa sempre il calcolatore</b>.
-        </p>
-
-        <div class="q">Domanda (testo completo)</div>
-        <p class="qtext">
-          <b>“Mi dice a quanto mette l’ossigeno e per quante ore al giorno lo tiene acceso?</b><br>
-          (Il flusso è indicato sulla manopola: ad esempio 1, 1,5, 2, 3 L/min. Le ore sono quelle di utilizzo effettivo durante la giornata.)”
-        </p>
-
-        <div class="row">
-          <div class="field">
-            <label for="flow">Flusso (L/min)</label>
-            <input id="flow" inputmode="decimal" placeholder="Es. 1,5" />
-          </div>
-
-          <div class="field">
-            <label for="hours">Ore al giorno</label>
-            <input id="hours" inputmode="decimal" placeholder="Es. 12" />
-          </div>
-        </div>
-
-        <div class="footer-actions">
-          <button class="btn btn-ghost" id="backTo2">← Indietro</button>
-          <button class="btn btn-primary" id="toStep4" disabled>Vai al calcolatore ➜</button>
-        </div>
-      </section>
-
-      <!-- STEP 4 -->
-      <section class="card hidden" id="step4">
-        <h2>Step 4 — Calcolatore autonomia</h2>
-        <p class="qtext">
-          Per valutare correttamente l’autonomia residua è necessario utilizzare
-          il <b>calcolatore di autonomia O₂ liquido</b>, inserendo flusso e ore di utilizzo.
-        </p>
-
-        <div class="footer-actions">
-          <button class="btn btn-ghost" id="backTo3">← Indietro</button>
-          <button class="btn btn-primary" id="openCalc">Apri calcolatore ➜</button>
-        </div>
-
-        <p class="hint" style="margin-top:12px" id="summary"></p>
-      </section>
-
+    <div class="choice-group">
+      <button class="choice-btn" onclick="goTo('led-type')">Indicatore a LED</button>
+      <button class="choice-btn" onclick="goTo('analogico')">Indicatore analogico</button>
     </div>
   </div>
 
-  <script>
-    // ===== State
-    const state = {
-      type: "",        // "led" | "analog"
-      ledCount: 0,     // 8 | 10
-      ledWhich: "",
+  <!-- STEP 2A – LED: 8 o 10 -->
+  <div class="card hidden" id="led-type">
+    <h2>Indicatore a LED</h2>
 
-      analogType: "",  // "window" | "needle"
-      windowLevel: "",
-      needleZone: "",
-      needleValue: "",
+    <p>Il contenitore ha <b>8 LED</b> o <b>10 LED</b>?</p>
 
-      flow: "",
-      hours: ""
-    };
+    <div class="choice-group">
+      <button class="choice-btn" onclick="goTo('led-level')">8 LED</button>
+      <button class="choice-btn" onclick="goTo('led-level')">10 LED</button>
+    </div>
+  </div>
 
-    // ===== Helpers
-    const $ = (id) => document.getElementById(id);
+  <!-- STEP 2A.2 – Quale LED -->
+  <div class="card hidden" id="led-level">
+    <h2>Indicatore a LED – Livello</h2>
 
-    function setDot(step){
-      ["dot1","dot2","dot3","dot4"].forEach((d,i)=>{
-        $(d).classList.toggle("on", (i+1) === step);
-      });
-    }
+    <p>
+      Mi dice quale LED si accende quando preme il pulsante di test?<br><br>
+      <b>Si accende un solo LED</b>, quello che indica il livello dell’ossigeno.
+    </p>
 
-    function showOnly(sectionId){
-      ["step1","step2_led","step2_analog","step3","step4"].forEach(id=>{
-        $(id).classList.toggle("hidden", id !== sectionId);
-      });
-      if(sectionId==="step1") setDot(1);
-      if(sectionId==="step2_led" || sectionId==="step2_analog") setDot(2);
-      if(sectionId==="step3") setDot(3);
-      if(sectionId==="step4") setDot(4);
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
+    <p>
+      Guardando la <b>scala colorata</b>, dal lato <b>rosso</b> verso il lato <b>verde</b>,
+      mi dica quale LED si accende:
+    </p>
 
-    function chipActive(chipIds, activeId){
-      chipIds.forEach(id => $(id).classList.toggle("active", id===activeId));
-    }
+    <ul>
+      <li>l’ultimo rosso</li>
+      <li>il penultimo giallo</li>
+      <li>il terzultimo giallo</li>
+      <li>oppure uno dei verdi successivi</li>
+    </ul>
 
-    function normalizeNumberLikeIt(val){
-      // accetta 1,5 o 1.5
-      return (val || "").toString().trim().replace(",", ".");
-    }
+    <p class="note">✔️ Dato acquisito. L’operatore lo annota.</p>
 
-    // ===== Step 1
-    $("pickLed").addEventListener("click", ()=>{
-      state.type = "led";
-      chipActive(["pickLed","pickAnalog"], "pickLed");
-      $("s1meta").textContent = "Selezionato: indicatore a LED";
-      $("toStep2").disabled = false;
-    });
+    <div class="choice-group">
+      <button class="choice-btn" onclick="goTo('flow-ore')">Vai avanti</button>
+    </div>
+  </div>
 
-    $("pickAnalog").addEventListener("click", ()=>{
-      state.type = "analog";
-      chipActive(["pickLed","pickAnalog"], "pickAnalog");
-      $("s1meta").textContent = "Selezionato: indicatore analogico";
-      $("toStep2").disabled = false;
-    });
+  <!-- STEP 2B – ANALOGICO -->
+  <div class="card hidden" id="analogico">
+    <h2>Indicatore analogico</h2>
 
-    $("toStep2").addEventListener("click", ()=>{
-      if(state.type==="led"){
-        showOnly("step2_led");
-      } else if(state.type==="analog"){
-        showOnly("step2_analog");
-      }
-    });
+    <h3>Indicatore a finestrella</h3>
+    <p>
+      Guardi la finestrella con la scala: a che livello si trova la
+      <b>tacca giallognola o verde</b>?
+    </p>
+    <ul>
+      <li>su 1/1</li>
+      <li>su 1/2</li>
+      <li>su 0</li>
+      <li>a metà (tra 1/1 e 1/2 o tra 1/2 e 0)</li>
+    </ul>
 
-    // ===== Step 2 LED
-    function buildLedOptions(){
-      const sel = $("ledWhich");
-      sel.innerHTML = '<option value="">Seleziona…</option>';
+    <p class="note">✔️ Dato acquisito. L’operatore lo annota.</p>
 
-      const base = [
-        "Ultimo rosso",
-        "Penultimo giallo",
-        "Terzultimo giallo"
-      ];
+    <hr>
 
-      base.forEach(v=>{
-        const opt=document.createElement("option");
-        opt.value=v; opt.textContent=v;
-        sel.appendChild(opt);
-      });
+    <h3>Indicatore a lancetta</h3>
+    <p>
+      Mi dice dove si trova la <b>lancetta</b> sul cerchietto colorato?
+      È nella zona <b>verde</b>, <b>gialla</b> o <b>rossa</b>?
+    </p>
 
-      const greens = state.ledCount ? (state.ledCount - 3) : 0;
-      for(let i=1;i<=greens;i++){
-        const v = `Verde ${i}`;
-        const opt=document.createElement("option");
-        opt.value=v; opt.textContent=v;
-        sel.appendChild(opt);
-      }
+    <p class="note">✔️ Dato acquisito. L’operatore lo annota.</p>
 
-      $("ledMeta").textContent = state.ledCount
-        ? `ℹ️ Verdi: ${greens} (su ${state.ledCount} LED)`
-        : "ℹ️ Verdi: —";
-    }
+    <div class="choice-group">
+      <button class="choice-btn" onclick="goTo('flow-ore')">Vai avanti</button>
+    </div>
+  </div>
 
-    $("led8").addEventListener("click", ()=>{
-      state.ledCount = 8;
-      chipActive(["led8","led10"], "led8");
-      state.ledWhich = "";
-      $("ledWhich").value = "";
-      buildLedOptions();
-      $("toStep3_fromLed").disabled = true;
-    });
+  <!-- STEP 3 – FLUSSO E ORE -->
+  <div class="card hidden" id="flow-ore">
+    <h2>Step 3 – Flusso e ore di utilizzo (sempre)</h2>
 
-    $("led10").addEventListener("click", ()=>{
-      state.ledCount = 10;
-      chipActive(["led8","led10"], "led10");
-      state.ledWhich = "";
-      $("ledWhich").value = "";
-      buildLedOptions();
-      $("toStep3_fromLed").disabled = true;
-    });
+    <p>
+      <b>Mi dice a quanto mette l’ossigeno e per quante ore al giorno lo tiene acceso?</b>
+    </p>
 
-    $("ledWhich").addEventListener("change", (e)=>{
-      state.ledWhich = e.target.value;
-      $("toStep3_fromLed").disabled = !(state.ledCount && state.ledWhich);
-    });
+    <p>
+      Il flusso è indicato sulla manopola
+      (ad esempio: 1 – 1,5 – 2 – 3 L/min).<br>
+      Le ore sono quelle di utilizzo effettivo durante la giornata.
+    </p>
 
-    $("back1_led").addEventListener("click", ()=>{
-      // reset step2 led selections (soft)
-      showOnly("step1");
-    });
+    <p class="note">
+      ⚠️ Anche se il livello è “verde”, con terapie alte l’autonomia può essere bassa.<br>
+      Per questo <b>si usa sempre il calcolatore</b>.
+    </p>
 
-    $("toStep3_fromLed").addEventListener("click", ()=>{
-      showOnly("step3");
-      $("backTo2").dataset.from = "led";
-    });
+    <a class="final-btn"
+       href="https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/"
+       target="_blank">
+      Vai al calcolatore di autonomia O₂ liquido
+    </a>
+  </div>
 
-    // ===== Step 2 Analog
-    function setAnalogBlock(which){
-      $("windowBlock").classList.toggle("hidden", which!=="window");
-      $("needleBlock").classList.toggle("hidden", which!=="needle");
-    }
+</div>
 
-    function validateAnalog(){
-      if(state.analogType==="window"){
-        return !!state.windowLevel;
-      }
-      if(state.analogType==="needle"){
-        return !!state.needleZone; // valore numerico è opzionale
-      }
-      return false;
-    }
+<script>
+function goTo(id){
+  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+</script>
 
-    $("pickWindow").addEventListener("click", ()=>{
-      state.analogType = "window";
-      state.windowLevel = "";
-      state.needleZone = "";
-      state.needleValue = "";
-      $("windowLevel").value = "";
-      $("needleZone").value = "";
-      $("needleValue").value = "";
-      chipActive(["pickWindow","pickNeedle"], "pickWindow");
-      setAnalogBlock("window");
-      $("toStep3_fromAnalog").disabled = !validateAnalog();
-    });
-
-    $("pickNeedle").addEventListener("click", ()=>{
-      state.analogType = "needle";
-      state.windowLevel = "";
-      state.needleZone = "";
-      state.needleValue = "";
-      $("windowLevel").value = "";
-      $("needleZone").value = "";
-      $("needleValue").value = "";
-      chipActive(["pickWindow","pickNeedle"], "pickNeedle");
-      setAnalogBlock("needle");
-      $("toStep3_fromAnalog").disabled = !validateAnalog();
-    });
-
-    $("windowLevel").addEventListener("change",(e)=>{
-      state.windowLevel = e.target.value;
-      $("toStep3_fromAnalog").disabled = !validateAnalog();
-    });
-
-    $("needleZone").addEventListener("change",(e)=>{
-      state.needleZone = e.target.value;
-      $("toStep3_fromAnalog").disabled = !validateAnalog();
-    });
-
-    $("needleValue").addEventListener("input",(e)=>{
-      state.needleValue = e.target.value;
-    });
-
-    $("back1_analog").addEventListener("click", ()=>{
-      showOnly("step1");
-    });
-
-    $("toStep3_fromAnalog").addEventListener("click", ()=>{
-      showOnly("step3");
-      $("backTo2").dataset.from = "analog";
-    });
-
-    // ===== Step 3 (Flow + Hours)
-    function validateStep3(){
-      const f = normalizeNumberLikeIt(state.flow);
-      const h = normalizeNumberLikeIt(state.hours);
-      const fNum = Number(f);
-      const hNum = Number(h);
-      return Number.isFinite(fNum) && fNum > 0 && Number.isFinite(hNum) && hNum > 0;
-    }
-
-    $("flow").addEventListener("input",(e)=>{
-      state.flow = e.target.value;
-      $("toStep4").disabled = !validateStep3();
-    });
-
-    $("hours").addEventListener("input",(e)=>{
-      state.hours = e.target.value;
-      $("toStep4").disabled = !validateStep3();
-    });
-
-    $("backTo2").addEventListener("click", ()=>{
-      const from = $("backTo2").dataset.from;
-      if(from==="led") showOnly("step2_led");
-      else showOnly("step2_analog");
-    });
-
-    $("toStep4").addEventListener("click", ()=>{
-      showOnly("step4");
-
-      // Summary (solo informativo)
-      let s = [];
-      if(state.type==="led"){
-        s.push(`Indicatore: LED (${state.ledCount} LED) — LED acceso: ${state.ledWhich || "—"}`);
-      } else {
-        if(state.analogType==="window"){
-          s.push(`Indicatore: analogico a finestrella — livello: ${state.windowLevel || "—"}`);
-        } else {
-          s.push(`Indicatore: analogico a lancetta — zona: ${state.needleZone || "—"}${state.needleValue ? `, valore: ${state.needleValue}` : ""}`);
-        }
-      }
-      s.push(`Flusso: ${state.flow} L/min — Ore/giorno: ${state.hours}`);
-      $("summary").textContent = s.join(" · ");
-    });
-
-    // ===== Step 4 (open calc)
-    $("backTo3").addEventListener("click", ()=>{
-      showOnly("step3");
-    });
-
-    $("openCalc").addEventListener("click", ()=>{
-      // TODO: se vuoi posso puntare a una pagina specifica del tuo calcolatore (dimmi l'URL esatto)
-      window.open("https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/", "_blank");
-    });
-
-    // ===== Reset
-    $("resetBtn").addEventListener("click", ()=>{
-      // hard reset state
-      Object.keys(state).forEach(k => state[k] = (typeof state[k] === "number" ? 0 : ""));
-      // UI reset
-      chipActive(["pickLed","pickAnalog"], "");
-      $("s1meta").textContent = "";
-      $("toStep2").disabled = true;
-
-      chipActive(["led8","led10"], "");
-      $("ledWhich").innerHTML = '<option value="">Seleziona…</option>';
-      $("ledMeta").textContent = "ℹ️ Verdi: —";
-      $("toStep3_fromLed").disabled = true;
-
-      chipActive(["pickWindow","pickNeedle"], "");
-      setAnalogBlock("");
-      $("windowLevel").value = "";
-      $("needleZone").value = "";
-      $("needleValue").value = "";
-      $("toStep3_fromAnalog").disabled = true;
-
-      $("flow").value = "";
-      $("hours").value = "";
-      $("toStep4").disabled = true;
-
-      $("backTo2").dataset.from = "";
-      $("summary").textContent = "";
-
-      showOnly("step1");
-    });
-
-    // Init
-    buildLedOptions();
-    showOnly("step1");
-  </script>
 </body>
 </html>

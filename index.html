@@ -82,6 +82,43 @@ body{
 .dash-title{font-size:18px;font-weight:600}
 .dash-sub{font-size:12px}
 
+/* PROCEDURE */
+.doc-category{
+  margin-top:24px;
+}
+.doc-category h3{
+  margin:0 0 14px;
+  font-size:18px;
+}
+.doc-item{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  background:#f7fbfc;
+  border:1px solid #e4eef2;
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:transform .2s, box-shadow .2s;
+}
+.doc-item:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.doc-icon{
+  font-size:20px;
+  line-height:1;
+}
+.doc-title{
+  font-weight:600;
+  margin-bottom:4px;
+}
+.doc-sub{
+  font-size:13px;
+  color:var(--text-muted);
+}
+
 /* VIEWS */
 .view{display:none}
 .view.active{display:block}
@@ -142,32 +179,21 @@ body{
             </div>➜
           </div>
 
-<!-- Autonomia O2 liquido -->
-<div class="dash-tile"
-  onclick="window.open('tools/autonomia-ossigeno-liquido/', '_blank')">
-  <div class="dash-main">
-    <strong>Autonomia O₂ liquido</strong><br>
-    <span style="font-size:12px;">
-      Supporto operativo basato sull’indicatore di livello
-    </span>
-  </div>
-  ➜
-</div>
-          
+          <div class="dash-tile"
+            onclick="window.open('tools/autonomia-ossigeno-liquido/', '_blank')">
+            <div>
+              <div class="dash-title">Autonomia O₂ liquido</div>
+              <div class="dash-sub">Supporto operativo basato sull’indicatore di livello</div>
+            </div>➜
+          </div>
 
-         
-    <!-- Calcolatore stroller -->
-<div class="dash-tile"
-  onclick="window.open('https://enzothesun.github.io/calcolatore-stroller-ossigeno/', '_blank')"
-  <div class="dash-main">
-   <strong>Calcolatore stroller</strong>
-    <span style="font-size:12px;">
-      Calcolo autonomia unità portatile
-    </span>
-  </div>
-  ➜
-</div>
-          
+          <div class="dash-tile"
+            onclick="window.open('https://enzothesun.github.io/calcolatore-stroller-ossigeno/', '_blank')">
+            <div>
+              <div class="dash-title">Calcolatore stroller</div>
+              <div class="dash-sub">Autonomia unità portatili O₂ liquido</div>
+            </div>➜
+          </div>
 
           <div class="dash-tile"
             onclick="window.open('https://enzothesun.github.io/decisione-operativa/','_blank')">
@@ -183,70 +209,69 @@ body{
 
     <!-- PROCEDURE -->
     <section id="view-procedure" class="view">
-  <div class="card">
+      <div class="card">
 
-    <div class="section-title">Procedure operative</div>
-    <div class="section-subtitle">Libreria documentale</div>
+        <div class="section-title">Procedure operative</div>
+        <div class="section-sub">Libreria documentale</div>
 
-    <!-- ======================
-         MALFUNZIONAMENTI O₂ LIQUIDO
-    ====================== -->
-    <div class="doc-category">
-      <h3>🛠️ Malfunzionamenti contenitore O₂ liquido</h3>
+        <!-- ======================
+             MALFUNZIONAMENTI O₂ LIQUIDO
+        ====================== -->
+        <div class="doc-category">
+          <h3>🛠️ Malfunzionamenti contenitore O₂ liquido</h3>
 
-      <div class="doc-item"
-        onclick="window.open('docs/procedure/malfunzionamenti/contenitore_o2_liquido_generale.pdf', '_blank')"
-        data-keywords="malfunzionamento generale contenitore ossigeno liquido">
-        <div class="doc-icon">📄</div>
-        <div>
-          <div class="doc-title">
-            Gestione malfunzionamenti contenitore O₂ liquido
+          <div class="doc-item"
+            onclick="window.open('docs/procedure/malfunzionamenti/contenitore_o2_liquido_generale.pdf', '_blank')"
+            data-keywords="malfunzionamento generale contenitore ossigeno liquido">
+            <div class="doc-icon">📄</div>
+            <div>
+              <div class="doc-title">
+                Gestione malfunzionamenti contenitore O₂ liquido
+              </div>
+              <div class="doc-sub">
+                Procedura generale (PDF)
+              </div>
+            </div>
           </div>
-          <div class="doc-sub">
-            Procedura generale (PDF)
-          </div>
-        </div>
-      </div>
 
-      <div class="doc-item"
-        onclick="window.open('docs/procedure/malfunzionamenti/contenitore_rumoroso_perdita.pdf', '_blank')"
-        data-keywords="rumore sfiato sibilo perdita contenitore liquido">
-        <div class="doc-icon">📄</div>
-        <div>
-          <div class="doc-title">
-            Contenitore O₂ liquido – Rumoroso / Perdita
-          </div>
-          <div class="doc-sub">
-            Procedura operativa (PDF)
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================
-         ACCESSORI
-    ====================== -->
-    <div class="doc-category">
-      <h3>🎒 Accessori – Contenitori portatili O₂</h3>
-
-      <div class="doc-item"
-        onclick="window.open('docs/procedure/accessori/ricarica_del_portatile.pdf', '_blank')"
-        data-keywords="ricarica portatile ossigeno liquido accessori">
-        <div class="doc-icon">📄</div>
-        <div>
-          <div class="doc-title">
-            Ricarica del portatile O₂ liquido
-          </div>
-          <div class="doc-sub">
-            Procedura operativa (PDF)
+          <div class="doc-item"
+            onclick="window.open('docs/procedure/malfunzionamenti/contenitore_rumoroso_perdita.pdf', '_blank')"
+            data-keywords="rumore sfiato sibilo perdita contenitore liquido">
+            <div class="doc-icon">📄</div>
+            <div>
+              <div class="doc-title">
+                Contenitore O₂ liquido – Rumoroso / Perdita
+              </div>
+              <div class="doc-sub">
+                Procedura operativa (PDF)
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- ======================
+             ACCESSORI
+        ====================== -->
+        <div class="doc-category">
+          <h3>🎒 Accessori – Contenitori portatili O₂</h3>
+
+          <div class="doc-item"
+            onclick="window.open('docs/procedure/accessori/ricarica_del_portatile.pdf', '_blank')"
+            data-keywords="ricarica portatile ossigeno liquido accessori">
+            <div class="doc-icon">📄</div>
+            <div>
+              <div class="doc-title">
+                Ricarica del portatile O₂ liquido
+              </div>
+              <div class="doc-sub">
+                Procedura operativa (PDF)
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </div>
-
-  </div>
-</section>
-
+    </section>
 
   </main>
 </div>

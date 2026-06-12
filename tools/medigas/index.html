@@ -3,20 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <title>Hub Medigas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,sans-serif;
+  background:#f4f7fb;
+  color:#0b253a;
+  padding:32px;
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:34px;
+  color:#003b70;
+}
+
+.subtitle{
+  color:#5f6f82;
+  margin-bottom:28px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:26px;
+  box-shadow:0 4px 14px rgba(0,0,0,.10);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,.14);
+}
+
+.icon{
+  font-size:32px;
+  margin-bottom:14px;
+}
+
+.title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:#003b70;
+}
+
+.desc{
+  font-size:14px;
+  color:#5f6f82;
+  line-height:1.5;
+}
+
+.footer{
+  margin-top:34px;
+  font-size:13px;
+  color:#6b7a8c;
+  text-align:center;
+}
+</style>
 </head>
+
 <body>
 
 <h1>Hub Medigas</h1>
+<div class="subtitle">Strumenti, procedure e supporto operativo per la gestione Medigas.</div>
 
-<a href="https://enzothesun.github.io/decisione-operativa-farmacie/" target="_blank">
-    Farmacie Medigas
-</a>
+<div class="grid">
 
-<br><br>
+  <div class="card" onclick="window.open('https://enzothesun.github.io/decisione-operativa-farmacie/','_blank')">
+    <div class="icon">🏥</div>
+    <div class="title">Farmacie Medigas</div>
+    <div class="desc">Decisioni operative per richieste farmacie e ossigeno gassoso.</div>
+  </div>
 
-<a href="https://enzothesun.github.io/hub-medicale/" target="_blank">
-    Procedure operative
-</a>
+  <div class="card" onclick="window.open('https://enzothesun.github.io/hub-medicale/','_blank')">
+    <div class="icon">📚</div>
+    <div class="title">Procedure operative</div>
+    <div class="desc">Accesso alla libreria documentale condivisa dell’Hub Medicale.</div>
+  </div>
+
+  <div class="card" onclick="window.open('../calcolatori/','_blank')">
+    <div class="icon">🧮</div>
+    <div class="title">Hub Calcolatori Medicali</div>
+    <div class="desc">Autonomia ossigeno, terapia multipla, stroller e strumenti tecnici.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Tool sviluppato da Enzo Motti · Subject Matter Expert Mediacom
+</div>
 
 </body>
 </html>

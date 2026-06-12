@@ -299,36 +299,39 @@ onclick="window.open('tools/medigas/', '_blank')">
 </div>
 
 <script>
-<script>
+
 function showView(view, el){
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 
-  const targetView = document.getElementById('view-' + view);
-  if (targetView) {
-    targetView.classList.add('active');
+  const target = document.getElementById('view-' + view);
+  if (target) {
+    target.classList.add('active');
   }
 
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
   if (el) {
     el.classList.add('active');
   }
 }
 
 function forceRefresh(){
-  const base = window.location.origin + window.location.pathname;
-  window.location.href = base + '?v=' + Date.now();
+  window.location.href = window.location.pathname + '?v=' + Date.now();
 }
 
-window.onload = function(){
+window.addEventListener('load', function () {
   const params = new URLSearchParams(window.location.search);
-  const view = params.get('view');
 
-  if (view === 'procedure') {
+  if (params.get('view') === 'procedure') {
     const procedureNav = document.querySelector(".nav-item[onclick*='procedure']");
-    showView('procedure', procedureNav);
+
+    if (procedureNav) {
+      showView('procedure', procedureNav);
+    }
   }
-};
+});
 </script>
+
 
 </body>
 </html>

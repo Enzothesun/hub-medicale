@@ -2,13 +2,118 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Hub Calcolatori</title>
+<title>Hub Calcolatori Medicali</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,sans-serif;
+  background:#f4f7fb;
+  color:#0b253a;
+  padding:32px;
+}
+
+.header{
+  margin-bottom:28px;
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:34px;
+  color:#003b70;
+}
+
+.subtitle{
+  color:#5f6f82;
+  font-size:16px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:26px;
+  box-shadow:0 4px 14px rgba(0,0,0,.10);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,.14);
+}
+
+.icon{
+  font-size:32px;
+  margin-bottom:14px;
+}
+
+.title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:#003b70;
+}
+
+.desc{
+  font-size:14px;
+  color:#5f6f82;
+  line-height:1.5;
+}
+
+.footer{
+  margin-top:34px;
+  font-size:13px;
+  color:#6b7a8c;
+  text-align:center;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Hub Calcolatori</h1>
+<div class="header">
+  <h1>Hub Calcolatori Medicali</h1>
+  <div class="subtitle">Strumenti di supporto operativo per autonomia ossigeno e unità portatili.</div>
+</div>
 
-<p>Pagina in costruzione</p>
+<div class="grid">
+
+  <div class="card" onclick="window.open('https://enzothesun.github.io/Calcolatori-contenitori-Ossigeno-Liquido/','_blank')">
+    <div class="icon">🧮</div>
+    <div class="title">Calcolatori Ossigeno</div>
+    <div class="desc">Autonomia residua e strumenti tecnici per contenitori di ossigeno liquido.</div>
+  </div>
+
+  <div class="card" onclick="window.open('https://enzothesun.github.io/calcolatori-terapia-multipla-ossigeno-liquido/','_blank')">
+    <div class="icon">🫁</div>
+    <div class="title">Calcolatori Terapia Multipla</div>
+    <div class="desc">LED 8, LED 10, ago e stantuffo per la valutazione dell'autonomia residua.</div>
+  </div>
+
+  <div class="card" onclick="window.open('../autonomia-ossigeno-liquido/', '_blank')">
+    <div class="icon">💧</div>
+    <div class="title">Autonomia O₂ liquido</div>
+    <div class="desc">Supporto operativo basato sull'indicatore di livello del contenitore.</div>
+  </div>
+
+  <div class="card" onclick="window.open('https://enzothesun.github.io/calcolatore-stroller-ossigeno/', '_blank')">
+    <div class="icon">🎒</div>
+    <div class="title">Calcolatore stroller</div>
+    <div class="desc">Calcolo autonomia per unità portatili di ossigeno liquido.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Tool sviluppato da Enzo Motti · Subject Matter Expert Mediacom
+</div>
 
 </body>
 </html>

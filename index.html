@@ -311,6 +311,17 @@ function forceRefresh(){
   const base = window.location.origin + window.location.pathname;
   window.location.href = base + '?v=' + Date.now();
 }
+  window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const view = params.get('view');
+
+  if (view === 'procedure') {
+    const procedureNav = document.querySelector(".nav-item[onclick*='procedure']");
+    if (procedureNav) {
+      showView('procedure', procedureNav);
+    }
+  }
+});
 </script>
 
 </body>

@@ -299,29 +299,35 @@ body{
 </div>
 
 <script>
-function showView(view,el){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+view).classList.add('active');
+<script>
+function showView(view, el){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
+  const targetView = document.getElementById('view-' + view);
+  if (targetView) {
+    targetView.classList.add('active');
+  }
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) {
+    el.classList.add('active');
+  }
 }
 
 function forceRefresh(){
   const base = window.location.origin + window.location.pathname;
   window.location.href = base + '?v=' + Date.now();
 }
-  window.addEventListener('DOMContentLoaded', () => {
+
+window.onload = function(){
   const params = new URLSearchParams(window.location.search);
   const view = params.get('view');
 
   if (view === 'procedure') {
     const procedureNav = document.querySelector(".nav-item[onclick*='procedure']");
-    if (procedureNav) {
-      showView('procedure', procedureNav);
-    }
+    showView('procedure', procedureNav);
   }
-});
+};
 </script>
 
 </body>

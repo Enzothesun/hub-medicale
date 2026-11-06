@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calcolatore LOX – Quantità residua autorizzata</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b0e13;--card:#141a23;--text:#e9eef5;--muted:#9fb0c7;--border:#263043;--ok:#43d17a;--warn:#ffcc66}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}
+    main{max-width:780px;margin:36px auto;padding:0 18px}
+    h1{font-size:1.65rem;margin:0 0 6px}
+    .subtitle{color:var(--muted);margin:0 0 22px}
+    .card{background:var(--card);border:1px solid var(--border);padding:22px;border-radius:16px;margin-bottom:16px;box-shadow:0 8px 24px #0004}
+    .inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    label{display:block;color:var(--muted);font-size:.93rem;margin-bottom:8px}
+    input{width:100%;background:#0f1420;border:1px solid var(--border);border-radius:10px;padding:12px;color:#fff;font-size:1.15rem}
+    input:focus{outline:2px solid #4cc2ff;outline-offset:1px}
+    .actions{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    button{border:0;border-radius:10px;padding:11px 16px;cursor:pointer;font:600 1rem system-ui;color:white;background:linear-gradient(135deg,#2968ff,#4cc2ff)}
+    button.secondary{background:#263043;font-weight:500}
+    .note{font-size:.87rem;color:var(--muted)}
+    .metric-label{color:var(--muted);font-size:.93rem}
+    .number{font-weight:750;font-size:2.8rem;line-height:1.1;margin:6px 0;color:var(--ok);font-variant-numeric:tabular-nums}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 0}
+    .two>div{padding:12px;border:1px solid var(--border);border-radius:12px}
+    .midnum{font-size:1.3rem;font-weight:700;margin:4px 0;font-variant-numeric:tabular-nums}
+    .warning{margin-top:16px;color:var(--warn);font-size:.92rem}
+    #error{color:#ff8585;margin:14px 0 0}
+    #results[hidden],#error[hidden]{display:none}
+    footer{color:var(--muted);font-size:.85rem;margin:18px 0}
+    @media(max-width:560px){.inputs,.two{grid-template-columns:1fr}.card{padding:16px}.number{font-size:2.3rem}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Forniture residue – Ossigeno Liquido</h1>
+  <p class="subtitle">Calcola il numero di contenitori LOX interi consegnabili in base alla quantità ancora autorizzata.</p>
+  <section class="card">
+    <form id="calcForm">
+      <div class="inputs">
+        <div><label for="autorizzata">Quantità autorizzata (m³)</label><input id="autorizzata" type="text" inputmode="decimal" value="" autocomplete="off" required></div>
+        <div><label for="consegnata">Quantità già consegnata (m³)</label><input id="consegnata" type="text" inputmode="decimal" value="" autocomplete="off" required></div>
+      </div>
+      <div class="actions">
+        <button type="submit">Calcola residuo</button>
+        <button class="secondary" type="button" id="resetBtn">Reset</button>
+        <span class="note">1 contenitore LOX = 26,5 m³ (26.500 litri)</span>
+      </div>
+      <p role="alert" id="error" hidden></p>
+    </form>
+  </section>
+  <section id="results" class="card" aria-live="polite" hidden>
+    <div class="metric-label">Contenitori interi ancora consegnabili</div>
+    <div class="number" id="interi"></div>
+    <div class="two">
+      <div><div class="metric-label">Quantità autorizzata residua</div><div class="midnum" id="residuo"></div></div>
+      <div><div class="metric-label">Contenitori equivalenti (teorici)</div><div class="midnum" id="equivalenti"></div></div>
+      <div><div class="metric-label">Quantità impegnata dagli interi</div><div class="midnum" id="impegnata"></div></div>
+      <div><div class="metric-label">Residuo dopo gli interi</div><div class="midnum" id="scarto"></div></div>
+    </div>
+    <p class="warning" id="avviso"></p>
+  </section>
+  <footer>Calcolo aritmetico di supporto. Controllare sempre l'unità di misura e le regole di autorizzazione prima di programmare una consegna.</footer>
+</main>
+<script>
+(() => {
+  const VOLUME = 26.5;
+  const byId = id => document.getElementById(id);
+  const num = s => {
+    const clean = String(s).trim().replace(/\s/g,'');
+    if(!clean) return NaN;
+    // Accepted: 1309, 530,4, 1.309, 1.309,5, 1309.5
+    const normalized = clean.includes(',') ? clean.replace(/\./g,'').replace(',', '.') : clean;
+    if(!/^(?:\d+)(?:\.\d+)?$/.test(normalized)) return NaN;
+    return Number(normalized);
+  };
+  const fmt = (n,d=2) => n.toLocaleString('it-IT',{minimumFractionDigits:0,maximumFractionDigits:d});
+  function calculate(ev){
+    if(ev)ev.preventDefault();
+    const a=num(byId('autorizzata').value), c=num(byId('consegnata').value);
+    const err=byId('error'); err.hidden=true;
+    if(!Number.isFinite(a)||!Number.isFinite(c)||a<0||c<0||c>a){
+      byId('results').hidden=true;
+      err.textContent=c>a&&Number.isFinite(c)&&Number.isFinite(a)
+        ? 'La quantità consegnata supera quella autorizzata: verifica i dati.'
+        : 'Inserisci quantità valide (numeri positivi o zero, con la virgola decimale).';
+      err.hidden=false;return;
+    }
+    const r=Math.max(0,a-c);
+    // Small numerical adjustment for boundary representations (e.g. 26.5 * 3)
+    const full=Math.floor(r/VOLUME+1e-10);
+    const used=full*VOLUME;
+    const rest=Math.max(0,r-used);
+    byId('interi').textContent=fmt(full,0);
+    byId('residuo').textContent=fmt(r,3)+' m³';
+    byId('equivalenti').textContent=fmt(r/VOLUME,2);
+    byId('impegnata').textContent=fmt(used,3)+' m³';
+    byId('scarto').textContent=fmt(rest,3)+' m³';
+    byId('avviso').textContent=rest>1e-8
+      ? `Un ulteriore contenitore intero da 26,5 m³ supererebbe la quantità residua autorizzata di ${fmt(VOLUME-rest,3)} m³. Non arrotondare automaticamente per eccesso.`
+      : 'La quantità residua corrisponde a un numero intero di contenitori.';
+    byId('results').hidden=false;
+  }
+  byId('calcForm').addEventListener('submit',calculate);
+  byId('resetBtn').addEventListener('click',()=>{byId('autorizzata').value='';byId('consegnata').value='';byId('results').hidden=true;byId('error').hidden=true;byId('autorizzata').focus();});
+  // Nessun dato di esempio precompilato nella versione operativa.
+})();
+</script>
+</body>
+</html>
